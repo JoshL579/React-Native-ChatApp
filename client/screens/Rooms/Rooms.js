@@ -1,11 +1,18 @@
 import React from 'react';
-import { Center } from 'native-base';
+import { Center, VStack } from 'native-base';
+import RoomItem from '../../components/Rooms/RoomItem';
 
 export default function Rooms() {
 
     return (
-        <Center flex={1}>
-            Rooms
-        </Center>
+        <VStack flex={1} w="100%">
+            <Center>
+                <RoomItem />
+                <RoomItem />
+                <RoomItem />
+                <RoomItem />
+            </Center>
+
+        </VStack>
     )
 }
