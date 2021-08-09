@@ -10,7 +10,7 @@ export default function Auth(props) {
     const { navigation } = props;
 
     useFocusEffect(() => {
-        if (getToken()) return navigation.navigate('Rooms')
+        if (getToken()) return navigation.navigate('Main', {screen: 'Rooms'})
     });
 
     return(

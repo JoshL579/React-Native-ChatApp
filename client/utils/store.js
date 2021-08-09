@@ -1,11 +1,27 @@
-import AsyncStorage from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setToken = (token) => {
-    _storeData('TOKEN', token)
+    _storeData('TOKEN', token).then((res) => {
+        return true
+    }).catch((err) => {
+        return false
+    })
 }
 
 export const getToken = () => {
-    return _retrieveData('TOKEN')
+    _retrieveData('TOKEN').then((res) => {
+        return true
+    }).catch((err) => {
+        return false
+    })
+}
+
+export const deleteToken = () => {
+    _removeData('TOKEN').then((res) => {
+        return true
+    }).catch((err) => {
+        return false
+    })
 }
 
 const _storeData = async (key, value) => {
@@ -24,6 +40,15 @@ const _retrieveData = async (key) => {
             return JSON.parse(value)
         }
         throw Error('no such item')
+    } catch (err) {
+        return false
+    }
+};
+
+const _removeData = async (key) => {
+    try {
+        await AsyncStorage.removeItem(key);
+        return true
     } catch (err) {
         return false
     }

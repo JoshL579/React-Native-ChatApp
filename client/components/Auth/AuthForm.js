@@ -26,7 +26,7 @@ export default function AuthForm(props) {
         login(payload).then((res) => {
             console.log(res)
             setToken(res.token)
-            navigation.navigate('Rooms')
+            // navigation.navigate('Main', {screen: 'Rooms'})
         }).catch((err) => {
             console.log(err)
         })

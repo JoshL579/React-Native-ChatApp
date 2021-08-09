@@ -6,9 +6,9 @@ import NavBarBottom from './navigations';
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <NavBarBottom />
-    </NativeBaseProvider>
+      <NativeBaseProvider>
+        <NavBarBottom />
+      </NativeBaseProvider>
   );
 }
 
