@@ -3,22 +3,8 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Auth from '../screens/Auth/Auth';
-
-function HomeScreen() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Home!</Text>
-        </View>
-    );
-}
-
-function SettingsScreen() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Settings!</Text>
-        </View>
-    );
-}
+import Rooms from '../screens/Rooms/Rooms';
+import Chat from '../screens/Chat/Chat';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,8 +13,8 @@ export default function NavBarBottom() {
         <NavigationContainer>
             <Tab.Navigator>
                 <Tab.Screen name="Login" component={Auth} />
-                <Tab.Screen name="Rooms" component={HomeScreen} />
-                <Tab.Screen name="Chat" component={SettingsScreen} />
+                <Tab.Screen name="Rooms" component={Rooms} />
+                <Tab.Screen name="Chat" component={Chat} />
             </Tab.Navigator>
         </NavigationContainer>
     );

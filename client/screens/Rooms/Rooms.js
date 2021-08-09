@@ -1,11 +1,11 @@
 import React from 'react';
 import { Center } from 'native-base';
 
-export default function Chat() {
+export default function Rooms() {
 
     return (
         <Center flex={1}>
-            Chat
+            Rooms
         </Center>
     )
 }

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 // import { StyleSheet, Text, View } from 'react-native';
 import { Input, Stack, Center, Heading, Button } from 'native-base';
-import { login } from '../api/auth';
+import { login } from '../../api/auth';
+import { setToken } from '../../utils/store';
 
 
-export default function AuthForm() {
+export default function AuthForm(props) {
+    const { navigation } = props;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -23,6 +25,8 @@ export default function AuthForm() {
         }
         login(payload).then((res) => {
             console.log(res)
+            setToken(res.token)
+            navigation.navigate('Rooms')
         }).catch((err) => {
             console.log(err)
         })
