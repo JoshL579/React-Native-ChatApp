@@ -48,4 +48,4 @@ def login():
             return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'token': token})
             # res.set_cookie('token', token, httponly=True)
             # return res, 200
-    return jsonify({'success': False, 'msg': 'error'}), 400
+    return jsonify({'success': False, 'msg': 'Invalid Email or Password'}), 400

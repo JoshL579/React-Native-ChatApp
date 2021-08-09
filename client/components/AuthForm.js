@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 // import { StyleSheet, Text, View } from 'react-native';
 import { Input, Stack, Center, Heading, Button } from 'native-base';
+import { login } from '../api/auth';
 
 
 export default function AuthForm() {
@@ -16,21 +17,14 @@ export default function AuthForm() {
     }
 
     const handleLogin = () => {
-        fetch('http://localhost:5000/api/login', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        }).then((res) => {
+        const payload = {
+            email: email,
+            password: password
+        }
+        login(payload).then((res) => {
             console.log(res)
-            return res.json()
-        }).then((res) => {
-            console.log(res)
+        }).catch((err) => {
+            console.log(err)
         })
     }
 
