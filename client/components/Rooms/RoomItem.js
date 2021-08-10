@@ -5,12 +5,12 @@ export default function RoomItem(props) {
     const { name } = props;
     return (
         <>
-            <Box width="100%" px={4} py={3} bg='lightGery.200'>
+            <Box width="100%" px={4} py={4} bg='blueGray.200'>
                 <Text fontSize="2xl">
                     {name}
                 </Text>
             </Box>
-            <Divider />
+            <Divider bg="blueGray.300" />
         </>
     )
 }

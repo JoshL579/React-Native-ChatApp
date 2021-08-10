@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Center, VStack, Button } from 'native-base';
+import { Center, VStack } from 'native-base';
 import RoomItem from '../../components/Rooms/RoomItem';
-import { deleteToken } from '../../utils/store';
 import { AuthContext } from '../../context/AuthContext';
 import { getRooms } from '../../api/rooms';
 
@@ -9,11 +8,6 @@ import { getRooms } from '../../api/rooms';
 export default function Rooms() {
     const user = useContext(AuthContext);
     const [rooms, setRooms] = useState([])
-    const handleLogout = () => {
-        deleteToken().then((res) => {
-            user.setUserId('')
-        })
-    }
     useEffect(() => {
         getRooms().then((res) => {
             setRooms(res.rooms)
@@ -29,7 +23,6 @@ export default function Rooms() {
                     <RoomItem name={rooms.name} key={rooms.id} />
                 )}
             </Center>
-            <Button onPress={handleLogout}>LogOut</Button>
         </VStack>
     )
 }

@@ -3,11 +3,10 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import { getToken } from '../utils/store';
+import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import Auth from '../screens/Auth/Auth';
 import Rooms from '../screens/Rooms/Rooms';
-import Chat from '../screens/Chat/Chat';
+import Chat from '../screens/Profile/Profile';
 import { AuthContext } from '../context/AuthContext';
 
 const Stack = createStackNavigator();
@@ -22,19 +21,20 @@ function LoginActivity() {
 function MainActivity() {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Rooms" component={Rooms} options={{
-                title: 'Rooms',
-                tabBarIcon: ({ size, focused, color }) => {
-                    return (
-                        <AntDesign name="home" color={color} size={size} />
-                    );
-                },
-            }} />
-            <Tab.Screen name="Chat" component={Chat} options={{
+            <Tab.Screen name="Chat" component={Rooms} options={{
                 title: 'Chat',
                 tabBarIcon: ({ size, focused, color }) => {
                     return (
                         <MaterialCommunityIcons name="chat-outline" size={size} color={color} />
+
+                    );
+                },
+            }} />
+            <Tab.Screen name="Profile" component={Chat} options={{
+                title: 'Profile',
+                tabBarIcon: ({ size, focused, color }) => {
+                    return (
+                        <Feather name="user" size={size} color={color} />
                     );
                 },
             }} />

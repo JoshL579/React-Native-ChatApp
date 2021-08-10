@@ -38,7 +38,7 @@ export default function AuthForm(props) {
     return (
         <Stack space={3} alignItems="center" w="100%" justifyContent="center">
             <Center>
-                <Heading>Login</Heading>
+                <Heading color="blueGray.600">Login</Heading>
             </Center>
             <Input
                 variant="underlined"
@@ -71,7 +71,8 @@ export default function AuthForm(props) {
             />
             <Button
                 size="md"
-                colorScheme="secondary"
+                bg="blueGray.600"
+                colorScheme="blueGray"
                 onPress={handleLogin}
                 w="100%"
             >
