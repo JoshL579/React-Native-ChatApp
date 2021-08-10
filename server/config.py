@@ -15,4 +15,4 @@ JWT_ACCESS_CSRF_HEADER_NAME = "X-CSRF-TOKEN-ACCESS"
 JWT_REFRESH_CSRF_HEADER_NAME = "X-CSRF-TOKEN-REFRESH"
 
 # users
-users = json.loads(getenv("USERS", []))
+users = json.loads(str(getenv("USERS", [])))
