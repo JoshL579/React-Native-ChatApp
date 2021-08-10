@@ -1,6 +1,7 @@
 import React, { useState, createContext, useEffect } from "react";
 import { Center, Spinner } from "native-base";
-import { getUid } from "../utils/store";
+import { getToken } from "../utils/store";
+import { checkToken } from "../api/auth";
 
 
 export const AuthContext = createContext({
@@ -13,18 +14,28 @@ export const AuthContextProvider = (props) => {
     const [isComplete, setIsComplete] = useState(false);
     const value = { userId, setUserId };
     useEffect(() => {
-        getUid().then((res) => {
-            setUserId(res)
-        }).catch((err) => {
-            setUserId('')
-        }).finally((res) => {
-            setIsComplete(true)
-        })
+        getToken().then((token) => {
+            if (!token) {
+                setUserId('')
+                setIsComplete(true)
+                return
+            }
+            const payload = {
+                token: token
+            }
+            checkToken(payload).then((res) => {
+                setUserId(res.uid)
+            }).catch((err) => {
+                setUserId('')
+            }).finally((res) => {
+                setIsComplete(true)
+            })
+        }) 
     }, []);
 
     if (!isComplete) {
         return (
-            <Center>
+            <Center flex={1}>
                 <Spinner color="blue.300" />
             </Center>
         )

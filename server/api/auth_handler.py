@@ -49,3 +49,16 @@ def login():
             # res.set_cookie('token', token, httponly=True)
             # return res, 200
     return jsonify({'success': False, 'msg': 'Invalid Email or Password'}), 400
+
+
+@auth_handler.route('/auth', methods=['POST'])
+def check_token():
+    token = json.loads(request.get_data()).get('token')
+    print(token)
+    if token is None:
+        return jsonify({'success': False, 'msg': 'Empty Token'}), 400
+    uid = token_decoder(token).get('uid')
+    for user in users:
+        if user.get('id') == uid:
+            return jsonify({'success': True, 'msg': 'success', 'uid': uid}), 200
+    return jsonify({'success': False, 'msg': 'Invalid Token'}), 400

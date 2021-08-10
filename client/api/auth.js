@@ -6,3 +6,10 @@ export const login = (payload) => {
         payload: payload
     })
 }
+
+export const checkToken = (payload) => {
+    return post({
+        url: '/auth',
+        payload: payload
+    })
+}

@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //token
 export const setToken = (token) => {
-    _storeData('TOKEN', token)
+    return _storeData('TOKEN', token)
 }
 export const getToken = () => {
     return _retrieveData('TOKEN')

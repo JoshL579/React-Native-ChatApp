@@ -9,7 +9,6 @@ export default function Rooms() {
     const user = useContext(AuthContext);
     const handleLogout = () => {
         deleteToken().then((res) => {
-            console.log(res)
             user.setUserId('')
         })
     }
