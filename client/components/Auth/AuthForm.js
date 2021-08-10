@@ -12,12 +12,12 @@ export default function AuthForm(props) {
     const [password, setPassword] = useState('');
     const user = useContext(AuthContext);
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value)
+    const handleEmailChange = (text) => {
+        setEmail(text)
     }
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value)
+    const handlePasswordChange = (text) => {
+        setPassword(text)
     }
 
     const handleLogin = () => {
@@ -52,7 +52,7 @@ export default function AuthForm(props) {
                     placeholderTextColor: "blueGray.50",
                 }}
                 value={email}
-                onChange={handleEmailChange}
+                onChangeText={(text) => handleEmailChange(text)}
             />
             <Input
                 variant="underlined"
@@ -67,7 +67,7 @@ export default function AuthForm(props) {
                 }}
                 type="password"
                 value={password}
-                onChange={handlePasswordChange}
+                onChangeText={(text) => handlePasswordChange(text)}
             />
             <Button
                 size="md"

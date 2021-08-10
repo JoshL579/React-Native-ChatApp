@@ -1,7 +1,7 @@
 const _request = (url, method, params=null, payload=null) => {
     return new Promise((resolve, reject) => {
         let status;
-        fetch('http://localhost:5000/api' + url, {
+        fetch('http://192.168.1.66:5000/api' + url, {
             method: method,
             headers: {
                 Accept: 'application/json',

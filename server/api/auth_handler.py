@@ -54,7 +54,6 @@ def login():
 @auth_handler.route('/auth', methods=['POST'])
 def check_token():
     token = json.loads(request.get_data()).get('token')
-    print(token)
     if token is None:
         return jsonify({'success': False, 'msg': 'Empty Token'}), 400
     uid = token_decoder(token).get('uid')
