@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,6 +8,7 @@ import { getToken } from '../utils/store';
 import Auth from '../screens/Auth/Auth';
 import Rooms from '../screens/Rooms/Rooms';
 import Chat from '../screens/Chat/Chat';
+import { AuthContext } from '../context/AuthContext';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -43,12 +44,13 @@ function MainActivity() {
 
 
 export default function NavBarBottom() {
+    const user = useContext(AuthContext)
     return (
         <NavigationContainer>
             <Stack.Navigator>
                 {
-                    getToken() ?
-                        <Stack.Screen name="Main" component={MainActivity} options={{ headerShown: false }}/>
+                    user.userId ?
+                        <Stack.Screen name="Main" component={MainActivity}  options={{ headerShown: false }}/>
                     :
                         <Stack.Screen name="Login" component={Auth} options={{ headerShown: false }} />
 

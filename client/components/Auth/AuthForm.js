@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 // import { StyleSheet, Text, View } from 'react-native';
 import { Input, Stack, Center, Heading, Button } from 'native-base';
 import { login } from '../../api/auth';
 import { setToken } from '../../utils/store';
+import { AuthContext } from '../../context/AuthContext';
 
 
 export default function AuthForm(props) {
     const { navigation } = props;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const user = useContext(AuthContext);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value)
@@ -24,11 +26,10 @@ export default function AuthForm(props) {
             password: password
         }
         login(payload).then((res) => {
-            console.log(res)
             setToken(res.token)
-            // navigation.navigate('Main', {screen: 'Rooms'})
+            user.setUserId(res.uid)
         }).catch((err) => {
-            console.log(err)
+            //todo: add alert
         })
     }
 

@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Center, VStack, Button } from 'native-base';
 import RoomItem from '../../components/Rooms/RoomItem';
 import { deleteToken } from '../../utils/store';
+import { AuthContext } from '../../context/AuthContext';
+
 
 export default function Rooms() {
+    const user = useContext(AuthContext);
     const handleLogout = () => {
         deleteToken().then((res) => {
             console.log(res)
+            user.setUserId('')
         })
-
-        // console.log(deleteToken())
     }
     return (
         <VStack flex={1} w="100%">

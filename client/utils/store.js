@@ -1,29 +1,25 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+//token
 export const setToken = (token) => {
-    _storeData('TOKEN', token).then((res) => {
-        return true
-    }).catch((err) => {
-        return false
-    })
+    _storeData('TOKEN', token)
 }
-
 export const getToken = () => {
-    _retrieveData('TOKEN').then((res) => {
-        return true
-    }).catch((err) => {
-        return false
-    })
+    return _retrieveData('TOKEN')
 }
-
 export const deleteToken = () => {
-    _removeData('TOKEN').then((res) => {
-        return true
-    }).catch((err) => {
-        return false
-    })
+    return _removeData('TOKEN')
 }
 
+//uid
+export const setUid = (uid) => {
+    return _storeData('UID', uid)
+}
+export const getUid = () => {
+    return _retrieveData('UID')
+}
+
+//basic func
 const _storeData = async (key, value) => {
     try {
         await AsyncStorage.setItem(key, JSON.stringify(value));

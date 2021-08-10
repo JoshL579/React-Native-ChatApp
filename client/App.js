@@ -2,13 +2,16 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NativeBaseProvider } from 'native-base';
+import { AuthContextProvider } from './context/AuthContext';
 import NavBarBottom from './navigations';
 
 export default function App() {
   return (
-      <NativeBaseProvider>
+    <NativeBaseProvider>
+      <AuthContextProvider>
         <NavBarBottom />
-      </NativeBaseProvider>
+      </AuthContextProvider>
+    </NativeBaseProvider>
   );
 }
 

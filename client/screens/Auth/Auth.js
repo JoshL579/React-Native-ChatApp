@@ -8,10 +8,9 @@ import { useFocusEffect } from '@react-navigation/native';
 
 export default function Auth(props) {
     const { navigation } = props;
-
-    useFocusEffect(() => {
-        if (getToken()) return navigation.navigate('Main', {screen: 'Rooms'})
-    });
+    // useFocusEffect(() => {
+    //     if (getToken()) return navigation.navigate('Main', {screen: 'Rooms'})
+    // });
 
     return(
         <Center flex={1} style={styles.container}>
