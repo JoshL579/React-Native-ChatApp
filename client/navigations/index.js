@@ -2,20 +2,38 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators, } from '@react-navigation/stack';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { useTheme } from 'native-base';
 import Auth from '../screens/Auth/Auth';
 import Rooms from '../screens/Rooms/Rooms';
-import Chat from '../screens/Profile/Profile';
+import Profile from '../screens/Profile/Profile';
+import Chat from '../screens/Chat/Chat';
 import { AuthContext } from '../context/AuthContext';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function LoginActivity() {
+function ChatFregment() {
     return (
-        <Stack.Screen name="Login" component={Auth} />
+        <Stack.Navigator screenOptions={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+        }}>
+            <Stack.Screen
+                name="Rooms"
+                component={Rooms}
+                options={{
+                    title: 'Chat'
+                }}
+            />
+            <Stack.Screen
+                name="ChatList"
+                component={Chat}
+                options={(
+                    { route }) => ({ title: route.params.name }
+                )}
+            />
+        </Stack.Navigator>
     )
 }
 
@@ -28,16 +46,17 @@ function MainActivity() {
                 tabBarInactiveTintColor: colors.blueGray['400']
             })}
         >
-            <Tab.Screen name="Chat" component={Rooms} options={{
+            <Tab.Screen name="Chat" component={ChatFregment} options={{
                 title: 'Chat',
                 tabBarIcon: ({ size, focused, color }) => {
                     return (
                         <MaterialCommunityIcons name="chat-outline" size={size} color={color} />
 
                     );
-                }
+                },
+                headerShown: false
             }} />
-            <Tab.Screen name="Profile" component={Chat} options={{
+            <Tab.Screen name="Profile" component={Profile} options={{
                 title: 'Profile',
                 tabBarIcon: ({ size, focused, color }) => {
                     return (
@@ -57,8 +76,8 @@ export default function NavBarBottom() {
             <Stack.Navigator>
                 {
                     user.userId ?
-                        <Stack.Screen name="Main" component={MainActivity}  options={{ headerShown: false }}/>
-                    :
+                        <Stack.Screen name="Main" component={MainActivity} options={{ headerShown: false }} />
+                        :
                         <Stack.Screen name="Login" component={Auth} options={{ headerShown: false }} />
 
                 }

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Center, VStack, Button, useTheme } from 'native-base';
+import { Center, VStack, Button, useTheme, Text } from 'native-base';
 import { deleteToken } from '../../utils/store';
 
 
-export default function Profile() {
+export default function Chat() {
     const user = useContext(AuthContext);
     const handleLogout = () => {
         deleteToken().then((res) => {
@@ -14,7 +14,7 @@ export default function Profile() {
     return (
         <VStack flex={1} w="100%">
             <Center mt={4}>
-                <Button onPress={handleLogout} bg="blueGray.600" colorScheme="blueGray" w="100%">LogOut</Button>
+                <Text>This is Chat Room</Text>
             </Center>
         </VStack>
     )

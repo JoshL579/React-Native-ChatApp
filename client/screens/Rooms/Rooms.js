@@ -5,7 +5,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { getRooms } from '../../api/rooms';
 
 
-export default function Rooms() {
+export default function Rooms(props) {
+    const { navigation } = props;
     const user = useContext(AuthContext);
     const [rooms, setRooms] = useState([])
     useEffect(() => {
@@ -16,11 +17,15 @@ export default function Rooms() {
             console.log(err)
         })
     }, [])
+    const handleEnterRoom = (name) => {
+        console.log(name)
+        navigation.navigate('ChatList', { name: name });
+    }
     return (
         <VStack flex={1} w="100%">
             <Center>
-                {rooms.length > 0 && rooms.map((rooms) => 
-                    <RoomItem name={rooms.name} key={rooms.id} />
+                {rooms.length > 0 && rooms.map((rooms) =>
+                    <RoomItem name={rooms.name} key={rooms.id} handleEnterRoom={handleEnterRoom} />
                 )}
             </Center>
         </VStack>
