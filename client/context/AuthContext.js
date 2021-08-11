@@ -7,16 +7,23 @@ import { checkToken } from "../api/auth";
 export const AuthContext = createContext({
     userId: "",
     setUserId: () => { },
+    userName: "",
+    setUserName: () => { },
 });
 
 export const AuthContextProvider = (props) => {
     const [userId, setUserId] = useState("");
+    const [userName, setUserName] = useState("");
     const [isComplete, setIsComplete] = useState(false);
-    const value = { userId, setUserId };
+    const value = { userId, setUserId, userName, setUserName };
+    const setEmptyUser = () => {
+        setUserId('')
+        setUserName('')
+    }
     useEffect(() => {
         getToken().then((token) => {
             if (!token) {
-                setUserId('')
+                setEmptyUser()
                 setIsComplete(true)
                 return
             }
@@ -25,8 +32,9 @@ export const AuthContextProvider = (props) => {
             }
             checkToken(payload).then((res) => {
                 setUserId(res.uid)
+                setUserName(res.name)
             }).catch((err) => {
-                setUserId('')
+                setEmptyUser()
             }).finally((res) => {
                 setIsComplete(true)
             })

@@ -1,21 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { Center, VStack, Button, useTheme, Text } from 'native-base';
 import { deleteToken } from '../../utils/store';
+import ChatItem from '../../components/Chat/ChatItem';
 
 
 export default function Chat() {
     const user = useContext(AuthContext);
-    const handleLogout = () => {
-        deleteToken().then((res) => {
-            user.setUserId('')
-        })
-    }
+    const [chats, setChats] = useState([]);
+    const [loading, setLoading] =useState(true);
+    useEffect(() => {
+        //todo: send server join room
+        setChats([...chats, {type: 'join', text: `${user.userName} has entered room`}])
+        setLoading(false)
+    }, [])
     return (
         <VStack flex={1} w="100%">
-            <Center mt={4}>
-                <Text>This is Chat Room</Text>
-            </Center>
+            {!loading && chats.length > 0 && chats.map((chat, index) => 
+                <ChatItem type={chat.type} text={chat.text} key={index} />
+            )}
         </VStack>
     )
 }

@@ -28,6 +28,7 @@ export default function AuthForm(props) {
         login(payload).then((res) => {
             if (!setToken(res.token)) throw Error('Unable to set login info, please try again')
             user.setUserId(res.uid)
+            user.setUserName(res.name)
         }).catch((err) => {
             console.log(err)
             //todo: add alert
