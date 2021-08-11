@@ -5,7 +5,11 @@ export default function RoomItem(props) {
     const { name, handleEnterRoom } = props;
     return (
         <>
-            <Button width="100%" px={4} py={4} bg='blueGray.200' onPress={()=>handleEnterRoom(name)}>
+            <Button width="100%" px={4} py={4} 
+                bg='blueGray.200'
+                colorScheme="singletons"
+                onPress={()=>handleEnterRoom(name)}
+            >
                 <Text fontSize="2xl">
                     {name}
                 </Text>
