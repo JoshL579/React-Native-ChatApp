@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
+import { useTheme } from 'native-base';
 import Auth from '../screens/Auth/Auth';
 import Rooms from '../screens/Rooms/Rooms';
 import Chat from '../screens/Profile/Profile';
@@ -19,8 +20,14 @@ function LoginActivity() {
 }
 
 function MainActivity() {
+    const { colors } = useTheme();
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            screenOptions={() => ({
+                tabBarActiveTintColor: colors.blueGray['700'],
+                tabBarInactiveTintColor: colors.blueGray['400']
+            })}
+        >
             <Tab.Screen name="Chat" component={Rooms} options={{
                 title: 'Chat',
                 tabBarIcon: ({ size, focused, color }) => {
@@ -28,7 +35,7 @@ function MainActivity() {
                         <MaterialCommunityIcons name="chat-outline" size={size} color={color} />
 
                     );
-                },
+                }
             }} />
             <Tab.Screen name="Profile" component={Chat} options={{
                 title: 'Profile',
