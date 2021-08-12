@@ -26,13 +26,6 @@ function ChatFregment() {
                     title: 'Chat'
                 }}
             />
-            <Stack.Screen
-                name="ChatList"
-                component={Chat}
-                options={(
-                    { route }) => ({ title: route.params.name }
-                )}
-            />
         </Stack.Navigator>
     )
 }
@@ -73,10 +66,21 @@ export default function NavBarBottom() {
     const user = useContext(AuthContext)
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={{
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+            }}>
                 {
                     user.userId ?
-                        <Stack.Screen name="Main" component={MainActivity} options={{ headerShown: false }} />
+                        <>
+                            <Stack.Screen name="Main" component={MainActivity} options={{ headerShown: false }} />
+                            <Stack.Screen
+                                name="ChatList"
+                                component={Chat}
+                                options={(
+                                    { route }) => ({ title: route.params.name }
+                                )}
+                            />
+                        </>
                         :
                         <Stack.Screen name="Login" component={Auth} options={{ headerShown: false }} />
 
