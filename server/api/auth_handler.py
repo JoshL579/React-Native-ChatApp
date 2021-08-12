@@ -45,7 +45,7 @@ def login():
         if user.get('email') == email and user.get('password') == password:
             uid = user.get('id')
             token = token_generator(uid)
-            return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'token': token})
+            return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'token': token, 'name': user.get('name')})
             # res.set_cookie('token', token, httponly=True)
             # return res, 200
     return jsonify({'success': False, 'msg': 'Invalid Email or Password'}), 400
@@ -59,5 +59,5 @@ def check_token():
     uid = token_decoder(token).get('uid')
     for user in users:
         if user.get('id') == uid:
-            return jsonify({'success': True, 'msg': 'success', 'uid': uid}), 200
+            return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'name': user.get('name')}), 200
     return jsonify({'success': False, 'msg': 'Invalid Token'}), 400
