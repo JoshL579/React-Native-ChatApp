@@ -4,10 +4,15 @@ import { Center, Input, Box, Button, Flex } from 'native-base';
 import { StyleSheet } from 'react-native';
 
 
-export default function ChatInput() {
+export default function ChatInput(props) {
+    const { handleSend } = props;
     const [input, setInput] = useState('');
     const handleInputChange = (text) => {
         setInput(text)
+    }
+    const handleSendPress = () => {
+        handleSend(input)
+        setInput('')
     }
     return (
         <Center p={2}>
@@ -33,7 +38,7 @@ export default function ChatInput() {
                     value={input}
                     onChangeText={(text) => handleInputChange(text)}
                 />
-                <Button bg="blueGray.600" size="md" flex={0.2} h="100%">
+                <Button bg="blueGray.600" size="md" flex={0.2} h="100%" onPress={handleSendPress}>
                     Send
                 </Button>
             </Flex>

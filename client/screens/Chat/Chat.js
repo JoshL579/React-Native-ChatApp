@@ -15,12 +15,19 @@ export default function Chat() {
         setChats([...chats, { type: 'join', text: `${user.userName} has entered room` }])
         setLoading(false)
     }, [])
+    const handleSend = (text) => {
+        setChats([...chats, { type: 'msg', text: text, fromSelf: true }])
+    }
     return (
         <>
             <ScrollView bottom={0} w="100%" bg="blueGray.100">
                 <VStack flex={1} w="100%">
                     {!loading && chats.length > 0 && chats.map((chat, index) =>
-                        <ChatItem type={chat.type} text={chat.text} key={index} />
+                        <ChatItem type={chat.type}
+                            text={chat.text}
+                            fromSelf={chat.fromSelf}
+                            key={index}
+                        />
                     )}
                 </VStack>
             </ScrollView>
@@ -29,7 +36,7 @@ export default function Chat() {
                 borderColor="blueGray.300"
                 bg="blueGray.50"
             >
-                <ChatInput />
+                <ChatInput handleSend={handleSend} />
             </Box>
         </>
     )

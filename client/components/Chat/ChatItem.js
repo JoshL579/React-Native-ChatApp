@@ -1,19 +1,37 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Center, VStack, Button, useTheme, Text } from 'native-base';
+import { Center, HStack, Button, useTheme, Text, Box, Image } from 'native-base';
 
 
 export default function ChatItem(props) {
-    const { type, text } = props;
+    const { type, text, fromSelf } = props;
 
     if (type === 'join') {
         return (
-            <Center mt={2}>
-                <Text fontSize="md" italic>{text}</Text>
+            <Center my={2}>
+                <Text fontSize="md" italic color="blueGray.600">{text}</Text>
             </Center>
         )
     }
     return (
-        <Text fontSize="md">this is massage sent or received</Text>
+        <Box m={2}>
+            <HStack flexDirection={fromSelf ? "row-reverse" : "row"}>
+                <Box bg="blueGray.400" w={10} h={10} mx={2} borderRadius={5} />
+                <Box border={1}
+                    borderColor="blueGray.200"
+                    bg="blueGray.50"
+                    borderRadius={5}
+                    maxWidth="200px"
+                    py={2}
+                    px={3}
+                >
+                    <Center>
+                        <Text>
+                            {text}
+                        </Text>
+                    </Center>                    
+                </Box>
+            </HStack>
+        </Box>
     )
 }

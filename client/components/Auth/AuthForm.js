@@ -22,8 +22,8 @@ export default function AuthForm(props) {
 
     const handleLogin = () => {
         const payload = {
-            email: email,
-            password: password
+            email: email.trim().toLowerCase(),
+            password: password.trim().toLowerCase()
         }
         login(payload).then((res) => {
             if (!setToken(res.token)) throw Error('Unable to set login info, please try again')

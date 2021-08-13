@@ -18,7 +18,6 @@ export default function Rooms(props) {
         })
     }, [])
     const handleEnterRoom = (name) => {
-        console.log(navigation.getParent())
         navigation.navigate('ChatList', { name: name });
     }
     return (
