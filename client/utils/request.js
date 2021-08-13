@@ -1,6 +1,6 @@
 const _request = (url, method, params=null, payload=null) => {
-    const baseUrl = 'http://192.168.1.66:5000/api';
-    // const baseUrl = 'http://127.0.0.1:5001/api';
+    // const baseUrl = 'http://192.168.1.66:5000/api';
+    const baseUrl = 'http://127.0.0.1:5001/api';
     // const baseUrl = 'http://127.0.0.1:5000/api';
 
     return new Promise((resolve, reject) => {

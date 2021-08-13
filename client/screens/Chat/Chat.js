@@ -4,7 +4,7 @@ import { Center, VStack, Button, useTheme, Text, ScrollView, Flex, Box } from 'n
 import { deleteToken } from '../../utils/store';
 import ChatItem from '../../components/Chat/ChatItem';
 import ChatInput from '../../components/Chat/ChatInput';
-
+import { socket } from '../../utils/config';
 
 export default function Chat() {
     const user = useContext(AuthContext);
@@ -14,6 +14,7 @@ export default function Chat() {
         //todo: send server join room
         setChats([...chats, { type: 'join', text: `${user.userName} has entered room` }])
         setLoading(false)
+        socket.emit("message", { user: user.userName });
     }, [])
     const handleSend = (text) => {
         setChats([...chats, { type: 'msg', text: text, fromSelf: true }])
