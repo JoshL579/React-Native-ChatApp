@@ -12,13 +12,31 @@ export default function Chat() {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         //todo: send server join room
-        setChats([...chats, { type: 'join', text: `${user.userName} has entered room` }])
-        setLoading(false)
-        socket.emit("message", { user: user.userName });
+        socket.emit("join", {
+            uid: user.userId,
+            username: user.userName,
+            roomId: user.currentRoom,
+        }, () => {
+            setLoading(false)
+        });
     }, [])
     const handleSend = (text) => {
-        setChats([...chats, { type: 'msg', text: text, fromSelf: true }])
+        socket.emit("message", { 
+            uid: user.userId, 
+            msg: text 
+        });
+        // setChats([...chats, { type: 'msg', text: text, fromSelf: true }])
     }
+    socket.on('join', (res, callback) => {
+        setChats([...chats, { type: 'join', text: `${res.name} has entered room` }])
+    })
+    socket.on('message', (res, callback) => {
+        setChats([...chats, { 
+            type: 'msg', 
+            text: res.msg, 
+            fromSelf: res.uid === user.userId ? true : false
+        }])
+    })
     return (
         <>
             <ScrollView bottom={0} w="100%" bg="blueGray.100">

@@ -9,13 +9,16 @@ export const AuthContext = createContext({
     setUserId: () => { },
     userName: "",
     setUserName: () => { },
+    currentRoom: "",
+    setCurrentRoom: () => { }
 });
 
 export const AuthContextProvider = (props) => {
     const [userId, setUserId] = useState("");
     const [userName, setUserName] = useState("");
+    const [currentRoom, setCurrentRoom] = useState("");
     const [isComplete, setIsComplete] = useState(false);
-    const value = { userId, setUserId, userName, setUserName };
+    const value = { userId, setUserId, userName, setUserName, currentRoom, setCurrentRoom };
     const setEmptyUser = () => {
         setUserId('')
         setUserName('')

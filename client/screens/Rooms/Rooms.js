@@ -17,14 +17,15 @@ export default function Rooms(props) {
             console.log(err)
         })
     }, [])
-    const handleEnterRoom = (name) => {
+    const handleEnterRoom = (name, roomId) => {
+        user.setCurrentRoom(roomId)
         navigation.navigate('ChatList', { name: name });
     }
     return (
         <VStack flex={1} w="100%">
             <Center>
-                {rooms.length > 0 && rooms.map((rooms) =>
-                    <RoomItem name={rooms.name} key={rooms.id} handleEnterRoom={handleEnterRoom} />
+                {rooms.length > 0 && rooms.map((room) =>
+                    <RoomItem name={room.name} roomId={room.id} key={room.id} handleEnterRoom={handleEnterRoom} />
                 )}
             </Center>
         </VStack>
