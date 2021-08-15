@@ -8,13 +8,13 @@ export default function ChatItem(props) {
 
     if (type === 'join') {
         return (
-            <Center my={2}>
+            <Center py={2}>
                 <Text fontSize="md" italic color="blueGray.600">{text}</Text>
             </Center>
         )
     }
     return (
-        <Box m={2}>
+        <Box p={2}>
             <HStack flexDirection={fromSelf ? "row-reverse" : "row"}>
                 <Box bg="blueGray.400" w={10} h={10} mx={2} borderRadius={5} />
                 <Box border={1}

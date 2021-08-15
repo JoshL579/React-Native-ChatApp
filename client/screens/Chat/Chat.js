@@ -7,11 +7,25 @@ import ChatInput from '../../components/Chat/ChatInput';
 import { socket } from '../../utils/config';
 import { setChatHistory, getChatHistory } from '../../utils/store';
 
-export default function Chat({ route }) {
+export default function Chat({ route, navigation }) {
     const { roomId } = route.params;
     const user = useContext(AuthContext);
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // todo: mihgt delete later
+        navigation.addListener('beforeRemove', () => {
+            console.log('backing')
+            socket.emit("leave", {
+                uid: user.userId,
+                username: user.userName,
+                roomId: roomId,
+            }, () => {
+                
+            });
+        })
+    }, [navigation])
 
     // send join room to server
     useEffect(() => {
@@ -36,11 +50,12 @@ export default function Chat({ route }) {
     // update msg when receive
     useEffect(() => {
         let isMounted = true;
+
         socket.on('join', (res, callback) => {
             if (isMounted) setChats([...chats, { type: 'join', text: `${res.name} has entered room` }])
-            // setChatHistory({
-            //     [roomId]: { type: 'join', text: `${res.name} has entered room` }
-            // })
+        })
+        socket.on('leave', (res, callback) => {
+            if (isMounted) setChats([...chats, { type: 'join', text: `${res.name} has left room` }])
         })
         socket.on('message', (res, callback) => {
             if (isMounted) setChats([...chats, {
@@ -55,13 +70,16 @@ export default function Chat({ route }) {
                     fromSelf: res.uid === user.userId ? true : false
                 }
             })
+            // todo: scroll to bottom
         })
+
         return () => { isMounted = false };
     }, [chats])
 
     const handleSend = (text) => {
         socket.emit("message", { 
             uid: user.userId, 
+            roomId: roomId,
             msg: text 
         });
         // setChats([...chats, { type: 'msg', text: text, fromSelf: true }])
