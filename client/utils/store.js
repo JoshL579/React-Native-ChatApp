@@ -19,6 +19,36 @@ export const getUid = () => {
     return _retrieveData('UID')
 }
 
+//chat history
+export const setChatHistory = (data) => {
+    _retrieveData('CHAT_HISTORY').then((res) => {
+        if (!res) {
+            res = {}
+        }
+        if (!res[Object.keys(data)[0]]) {
+            res[Object.keys(data)[0]] = []
+        }
+        res[Object.keys(data)[0]].push(Object.values(data)[0])
+        return _storeData('CHAT_HISTORY', res)
+    }).catch((err) => {
+        return false
+    })
+}
+
+export const getChatHistory = () => {
+    return _retrieveData('CHAT_HISTORY')
+}
+
+// const data = {
+//     '1001': [
+//         {
+//             from: 'self',
+//             type: 'text',
+//             msg: 'this is msg'
+//         }
+//     ]
+// }
+
 //basic func
 const _storeData = async (key, value) => {
     try {

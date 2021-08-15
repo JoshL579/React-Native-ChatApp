@@ -19,7 +19,7 @@ export default function Rooms(props) {
     }, [])
     const handleEnterRoom = (name, roomId) => {
         user.setCurrentRoom(roomId)
-        navigation.navigate('ChatList', { name: name });
+        navigation.navigate('ChatList', { name: name, roomId: roomId });
     }
     return (
         <VStack flex={1} w="100%">
