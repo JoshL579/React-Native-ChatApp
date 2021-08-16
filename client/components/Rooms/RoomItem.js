@@ -7,7 +7,7 @@ export default function RoomItem(props) {
         <>
             <Button width="100%" px={4} py={4} 
                 bg='blueGray.200'
-                colorScheme="blueGray"
+                colorScheme="blueGrayReverse"
                 onPress={()=>handleEnterRoom(name, roomId)}
             >
                 <Text fontSize="2xl">

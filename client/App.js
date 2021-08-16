@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { theme } from './theme/theme';
 import { NativeBaseProvider } from 'native-base';
 import { AuthContextProvider } from './context/AuthContext';
 import { ChatContextProvider } from './context/ChatContext';
@@ -8,7 +9,7 @@ import NavBarBottom from './navigations';
 
 export default function App() {
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={theme}>
       <AuthContextProvider>
         <ChatContextProvider>
           <NavBarBottom />
