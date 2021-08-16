@@ -3,13 +3,16 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { NativeBaseProvider } from 'native-base';
 import { AuthContextProvider } from './context/AuthContext';
+import { ChatContextProvider } from './context/ChatContext';
 import NavBarBottom from './navigations';
 
 export default function App() {
   return (
     <NativeBaseProvider>
       <AuthContextProvider>
-        <NavBarBottom />
+        <ChatContextProvider>
+          <NavBarBottom />
+        </ChatContextProvider>
       </AuthContextProvider>
     </NativeBaseProvider>
   );

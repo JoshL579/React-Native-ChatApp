@@ -1,43 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Center, VStack, Button, useTheme, Text, ScrollView, Flex, Box } from 'native-base';
-import { deleteToken } from '../../utils/store';
+import { ChatContext } from '../../context/ChatContext';
+import { VStack, ScrollView, Box } from 'native-base';
 import ChatItem from '../../components/Chat/ChatItem';
 import ChatInput from '../../components/Chat/ChatInput';
 import { socket } from '../../utils/config';
-import { setChatHistory, getChatHistory } from '../../utils/store';
 
-export default function Chat({ route, navigation }) {
+export default function Chat({ route }) {
     const { roomId } = route.params;
     const user = useContext(AuthContext);
+    const chatHistory = useContext(ChatContext);
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        // todo: mihgt delete later
-        navigation.addListener('beforeRemove', () => {
-            console.log('backing')
-            socket.emit("leave", {
-                uid: user.userId,
-                username: user.userName,
-                roomId: roomId,
-            }, () => {
-                
-            });
-        })
-    }, [navigation])
-
     // send join room to server
     useEffect(() => {
-        //todo: send server join room
-
-        // preset chat history
-        getChatHistory().then((res) => {
-            if (res[roomId]) {
-                return setChats(res[roomId]);
-            }
-        })
-
         socket.emit("join", {
             uid: user.userId,
             username: user.userName,
@@ -47,34 +24,19 @@ export default function Chat({ route, navigation }) {
         });
     }, [])
 
-    // update msg when receive
-    useEffect(() => {
-        let isMounted = true;
+    // update join msg when receive, which will not store in storage
+    // useEffect(() => {
+    //     let isMounted = true;
 
-        socket.on('join', (res, callback) => {
-            if (isMounted) setChats([...chats, { type: 'join', text: `${res.name} has entered room` }])
-        })
-        socket.on('leave', (res, callback) => {
-            if (isMounted) setChats([...chats, { type: 'join', text: `${res.name} has left room` }])
-        })
-        socket.on('message', (res, callback) => {
-            if (isMounted) setChats([...chats, {
-                type: 'msg',
-                text: res.msg,
-                fromSelf: res.uid === user.userId ? true : false
-            }])
-            setChatHistory({
-                [roomId]: {
-                    type: 'msg',
-                    text: res.msg,
-                    fromSelf: res.uid === user.userId ? true : false
-                }
-            })
-            // todo: scroll to bottom
-        })
+    //     socket.on('join', (res, callback) => {
+    //         if (isMounted) setChats([...chats, { type: 'join', text: `${res.name} has entered room` }])
+    //     })
+    //     socket.on('leave', (res, callback) => {
+    //         if (isMounted) setChats([...chats, { type: 'join', text: `${res.name} has left room` }])
+    //     })
 
-        return () => { isMounted = false };
-    }, [chats])
+    //     return () => { isMounted = false };
+    // }, [])
 
     const handleSend = (text) => {
         socket.emit("message", { 
@@ -89,7 +51,7 @@ export default function Chat({ route, navigation }) {
         <>
             <ScrollView bottom={0} w="100%" bg="blueGray.100">
                 <VStack flex={1} w="100%">
-                    {!loading && chats.length > 0 && chats.map((chat, index) =>
+                    {!loading && chatHistory.chats[roomId] && chatHistory.chats[roomId].length > 0 && chatHistory.chats[roomId].map((chat, index) =>
                         <ChatItem type={chat.type}
                             text={chat.text}
                             fromSelf={chat.fromSelf}

@@ -1,7 +1,9 @@
-const _request = (url, method, params=null, payload=null) => {
-    // const baseUrl = 'http://192.168.1.66:5000/api';
-    const baseUrl = 'http://192.168.1.66:5001/api';
-    // const baseUrl = 'http://127.0.0.1:5000/api';
+import { baseUrl } from "./config";
+
+import { baseUrl as baseUrlConfig } from './config';
+
+const _request = (url, method, params = null, payload = null) => {
+    const baseUrl = baseUrlConfig + '/api';
 
     return new Promise((resolve, reject) => {
         let status;

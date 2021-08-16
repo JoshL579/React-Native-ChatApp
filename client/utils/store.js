@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { addChatHistory } from './history';
 
 //token
 export const setToken = (token) => {
@@ -20,19 +21,8 @@ export const getUid = () => {
 }
 
 //chat history
-export const setChatHistory = (data) => {
-    _retrieveData('CHAT_HISTORY').then((res) => {
-        if (!res) {
-            res = {}
-        }
-        if (!res[Object.keys(data)[0]]) {
-            res[Object.keys(data)[0]] = []
-        }
-        res[Object.keys(data)[0]].push(Object.values(data)[0])
-        return _storeData('CHAT_HISTORY', res)
-    }).catch((err) => {
-        return false
-    })
+export const setChatHistory = (newMsg) => {
+    return _storeData('CHAT_HISTORY', newMsg)
 }
 
 export const getChatHistory = () => {

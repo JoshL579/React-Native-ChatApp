@@ -9,9 +9,10 @@ chat_handler = IOBlueprint('/chat')
 def test_broadcast(data):
     print('message:')
     print(data)
+    room_id = data.get('roomId', '1000')
     # todo: add msg to db
     # todo: check if user is in that room
-    emit('message', {'msg': data.get('msg'), 'uid': data.get('uid')}, to=data.get('roomId', '1000'))
+    emit('message', {'msg': data.get('msg'), 'uid': data.get('uid'), 'roomId': room_id}, to=room_id)
 
 
 @chat_handler.on('join')
@@ -23,7 +24,7 @@ def on_join(data):
     room_id = data.get('roomId')
     join_room(room_id)
     # todo: record db
-    emit('join', {'uid': uid, 'name': name, 'room_id': room_id}, to=room_id)
+    emit('join', {'uid': uid, 'name': name, 'roomId': room_id}, to=room_id)
 
 
 @chat_handler.on('leave')
@@ -34,7 +35,7 @@ def on_leave(data):
     name = data.get('username')
     room_id = data.get('roomId')
     leave_room(room_id)
-    emit('leave', {'uid': uid, 'name': name, 'room_id': room_id}, to=room_id)
+    emit('leave', {'uid': uid, 'name': name, 'roomId': room_id}, to=room_id)
 
 
 @chat_handler.on('connect')
