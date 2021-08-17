@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
 import { VStack, ScrollView, Box } from 'native-base';
@@ -12,9 +12,18 @@ export default function Chat({ route }) {
     const chatHistory = useContext(ChatContext);
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
+    const scrollEl = useRef(null);
+
+    const scrollToBottom = () => {
+        scrollEl.current.scrollIntoView({ behavior: 'smooth'})
+    }
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [scrollEl, loading, chatHistory])
 
     // send join room to server
-    useEffect(() => {
+    useEffect(() => {                
         socket.emit("join", {
             uid: user.userId,
             username: user.userName,
@@ -43,14 +52,14 @@ export default function Chat({ route }) {
             uid: user.userId, 
             roomId: roomId,
             msg: text 
-        });
+        });        
         // setChats([...chats, { type: 'msg', text: text, fromSelf: true }])
     }
 
     return (
         <>
-            <ScrollView bottom={0} w="100%" bg="blueGray.100">
-                <VStack flex={1} w="100%">
+            <ScrollView bottom={0} w="100%" bg="blueGray.100" inverted>
+                <VStack flex={1} w="100%" id="VStack">
                     {!loading && chatHistory.chats[roomId] && chatHistory.chats[roomId].length > 0 && chatHistory.chats[roomId].map((chat, index) =>
                         <ChatItem type={chat.type}
                             text={chat.text}
@@ -58,8 +67,10 @@ export default function Chat({ route }) {
                             key={index}
                         />
                     )}
-                </VStack>
+                    <Box ref={scrollEl} />
+                </VStack>                
             </ScrollView>
+            
             <Box w="100%"
                 border={0} borderTopWidth={1}
                 borderColor="blueGray.300"
