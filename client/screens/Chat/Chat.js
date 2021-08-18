@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-import { VStack, ScrollView, Box } from 'native-base';
+import { VStack, ScrollView, Box, FlatList } from 'native-base';
 import ChatItem from '../../components/Chat/ChatItem';
 import ChatInput from '../../components/Chat/ChatInput';
 import { socket } from '../../utils/config';
@@ -14,13 +14,13 @@ export default function Chat({ route }) {
     const [loading, setLoading] = useState(true);
     const scrollEl = useRef(null);
 
-    const scrollToBottom = () => {
-        scrollEl.current.scrollIntoView({ behavior: 'smooth'})
-    }
+    // const scrollToBottom = () => {
+    //     scrollEl.current.scrollIntoView({ behavior: 'smooth'})
+    // }
 
-    useEffect(() => {
-        scrollToBottom()
-    }, [scrollEl, loading, chatHistory])
+    // useEffect(() => {
+    //     scrollToBottom()
+    // }, [scrollEl, loading, chatHistory])
 
     // send join room to server
     useEffect(() => {                
@@ -56,9 +56,28 @@ export default function Chat({ route }) {
         // setChats([...chats, { type: 'msg', text: text, fromSelf: true }])
     }
 
+    const renderItem = ({ item }) => (
+        <ChatItem 
+            text={item.text} 
+            type={item.type}
+            fromSelf={item.fromSelf}
+        />
+    );
+
     return (
-        <>
-            <ScrollView bottom={0} w="100%" bg="blueGray.100" inverted>
+        <Box flex={1}>
+            <Box flex={1}>
+                <FlatList
+                    data={chatHistory.chats[roomId]}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index.toString()}
+                    inverted={true}
+                    // initialScrollIndex={(chatHistory.chats[roomId]).length - 1}
+                    // contentContainerStyle={{ flexDirection: 'column-reverse' }}
+                />                
+            </Box>            
+
+            {/* <ScrollView bottom={0} w="100%" bg="blueGray.100" inverted>
                 <VStack flex={1} w="100%" id="VStack">
                     {!loading && chatHistory.chats[roomId] && chatHistory.chats[roomId].length > 0 && chatHistory.chats[roomId].map((chat, index) =>
                         <ChatItem type={chat.type}
@@ -69,15 +88,17 @@ export default function Chat({ route }) {
                     )}
                     <Box ref={scrollEl} />
                 </VStack>                
-            </ScrollView>
+            </ScrollView> */}
             
-            <Box w="100%"
+            <Box w="100%" 
+                // flex={0.08}
+                h={12}
                 border={0} borderTopWidth={1}
                 borderColor="blueGray.300"
                 bg="blueGray.50"
             >
                 <ChatInput handleSend={handleSend} />
             </Box>
-        </>
+        </Box>
     )
 }

@@ -6,6 +6,6 @@ export const addChatHistory = (history, newMsg) => {
     if (!history[roomId]) {
         history[roomId] = []
     }
-    history[roomId].push(newMsg[roomId])
+    history[roomId].unshift(newMsg[roomId])
     return history
 }

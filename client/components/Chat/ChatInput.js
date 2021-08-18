@@ -15,32 +15,43 @@ export default function ChatInput(props) {
         setInput('')
     }
     return (
-        <Center p={2}>
-            <Flex direction="row" w="100%" align="center" justify="center" s>
-                <Input
-                    variant="filled"
-                    bg="blueGray.200"
-                    placeholder="Enter Your Message Here..."
-                    size="md"
-                    flex={0.8}
-                    h="100%"
-                    _light={{
-                        placeholderTextColor: "blueGray.400",
-                    }}
-                    _dark={{
-                        placeholderTextColor: "blueGray.50",
-                    }}
-                    _focus={{
-                        // borderColor:"blueGray.500",
-                        shadow: 'none',
-                        border: 'none'
-                    }}
-                    value={input}
-                    onChangeText={(text) => handleInputChange(text)}
-                />
-                <Button bg="blueGray.600" size="md" flex={0.2} h="100%" onPress={handleSendPress}>
-                    Send
-                </Button>
+        <Center p={2} flex={1}>
+            <Flex direction="row" w="100%" align="center" justify="center">
+                <Flex direction="column" flex={0.8}>
+                    <Input
+                        py={0}
+                        px={4}
+                        variant="filled"
+                        bg="blueGray.200"
+                        placeholder="Enter Your Message Here..."
+                        // size="md"
+                        // flex={1}
+                        h={10}
+                        _light={{
+                            placeholderTextColor: "blueGray.400",
+                        }}
+                        _dark={{
+                            placeholderTextColor: "blueGray.50",
+                        }}
+                        _focus={{
+                            // borderColor:"blueGray.500",
+                            shadow: 'none',
+                            border: 'none'
+                        }}
+                        value={input}
+                        onChangeText={(text) => handleInputChange(text)}
+                    />
+                </Flex>
+                <Flex direction="column" flex={0.2}>
+                    <Button bg="blueGray.600" 
+                        h={10}
+                        // size="md" 
+                        // flex={1} 
+                        onPress={handleSendPress}
+                    >
+                        Send
+                    </Button>
+                </Flex>
             </Flex>
         </Center>
     )
