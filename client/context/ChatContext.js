@@ -6,14 +6,16 @@ import { AuthContext } from './AuthContext';
 
 export const ChatContext = createContext({
     chats: "",
-    setChats: () => { }
+    setChats: () => { },
+    unRead: "",
+    setUnRead: () => { }
 });
 
 export const ChatContextProvider = (props) => {
     const user = useContext(AuthContext);
     const [chats, setChats] = useState({});
     const [unRead, setUnRead] = useState({});
-    const value = { chats, setChats };
+    const value = { chats, setChats, unRead, setUnRead };
 
     // update history state when reload
     useEffect(() => {
@@ -26,8 +28,8 @@ export const ChatContextProvider = (props) => {
     }, [])
 
     // update msg when receive
-    useEffect(() => {
-        socket.on('message', (res, callback) => {
+    useEffect(() => {        
+        socket.on('message', (res) => {
             console.log(user.userId)
             console.log(res)
             const roomId = res.roomId
@@ -42,7 +44,12 @@ export const ChatContextProvider = (props) => {
                 const history = addChatHistory(chats, newMsg)
                 setChats(history)
                 setChatHistory(history)
-            })
+                let newUnRead = unRead
+                let count
+                newUnRead[roomId] ? (count = newUnRead[roomId].count + 1) : (count = 1)
+                newUnRead[roomId] = {count: count, text: res.msg}
+                setUnRead(newUnRead)
+            })            
         })
 
         // join & leave room msg

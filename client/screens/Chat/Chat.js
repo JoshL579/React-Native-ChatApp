@@ -10,17 +10,6 @@ export default function Chat({ route }) {
     const { roomId } = route.params;
     const user = useContext(AuthContext);
     const chatHistory = useContext(ChatContext);
-    const [chats, setChats] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const scrollEl = useRef(null);
-
-    // const scrollToBottom = () => {
-    //     scrollEl.current.scrollIntoView({ behavior: 'smooth'})
-    // }
-
-    // useEffect(() => {
-    //     scrollToBottom()
-    // }, [scrollEl, loading, chatHistory])
 
     // send join room to server
     useEffect(() => {                
@@ -28,9 +17,8 @@ export default function Chat({ route }) {
             uid: user.userId,
             username: user.userName,
             roomId: roomId,
-        }, () => {
-            setLoading(false)
         });
+        console.log(chatHistory.unRead)
     }, [])
 
     // update join msg when receive, which will not store in storage
@@ -46,6 +34,13 @@ export default function Chat({ route }) {
 
     //     return () => { isMounted = false };
     // }, [])
+
+    useEffect(() => {
+        if (!chatHistory.unRead[roomId]) return;
+        let newUnRead = chatHistory.unRead;
+        newUnRead[roomId].count = 0;
+        chatHistory.setUnRead(newUnRead)
+    }, [chatHistory])
 
     const handleSend = (text) => {
         socket.emit("message", { 
@@ -76,20 +71,6 @@ export default function Chat({ route }) {
                     // contentContainerStyle={{ flexDirection: 'column-reverse' }}
                 />                
             </Box>            
-
-            {/* <ScrollView bottom={0} w="100%" bg="blueGray.100" inverted>
-                <VStack flex={1} w="100%" id="VStack">
-                    {!loading && chatHistory.chats[roomId] && chatHistory.chats[roomId].length > 0 && chatHistory.chats[roomId].map((chat, index) =>
-                        <ChatItem type={chat.type}
-                            text={chat.text}
-                            fromSelf={chat.fromSelf}
-                            key={index}
-                        />
-                    )}
-                    <Box ref={scrollEl} />
-                </VStack>                
-            </ScrollView> */}
-            
             <Box w="100%" 
                 // flex={0.08}
                 h={12}

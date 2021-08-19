@@ -29,6 +29,10 @@ export const getChatHistory = () => {
     return _retrieveData('CHAT_HISTORY')
 }
 
+export const deleteChatHistory = () => {
+    return _removeData('CHAT_HISTORY')
+}
+
 // const data = {
 //     '1001': [
 //         {
