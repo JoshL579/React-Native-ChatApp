@@ -12,6 +12,7 @@ export const ChatContext = createContext({
 export const ChatContextProvider = (props) => {
     const user = useContext(AuthContext);
     const [chats, setChats] = useState({});
+    const [unRead, setUnRead] = useState({});
     const value = { chats, setChats };
 
     // update history state when reload
@@ -27,13 +28,14 @@ export const ChatContextProvider = (props) => {
     // update msg when receive
     useEffect(() => {
         socket.on('message', (res, callback) => {
+            console.log(user.userId)
             console.log(res)
             const roomId = res.roomId
             const newMsg = {
                 [roomId]: {
                     type: 'msg',
                     text: res.msg,
-                    fromSelf: res.uid === user.userId ? true : false
+                    uid: res.uid
                 }
             }
             getChatHistory().then((chats) => {
@@ -68,7 +70,7 @@ export const ChatContextProvider = (props) => {
         //         setChatHistory(history)
         //     })
         // })
-    }, [])
+    }, [user.userId])
 
     return (
         <ChatContext.Provider value={value}>

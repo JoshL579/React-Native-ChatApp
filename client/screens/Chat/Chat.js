@@ -60,7 +60,7 @@ export default function Chat({ route }) {
         <ChatItem 
             text={item.text} 
             type={item.type}
-            fromSelf={item.fromSelf}
+            uid={item.uid}
         />
     );
 
