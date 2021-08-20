@@ -4,6 +4,8 @@ import RoomItem from '../../components/Rooms/RoomItem';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
 import { getRooms } from '../../api/rooms';
+import { socket } from '../../utils/config';
+import { clearNotification } from '../../utils/history';
 
 
 export default function Rooms(props) {
@@ -21,16 +23,20 @@ export default function Rooms(props) {
         })
     }, [])
 
-    const clearNotification = (roomId) => {
-        if (!chatHistory.unRead[roomId]) return;
-        let newUnRead = chatHistory.unRead;
-        newUnRead[roomId].count = 0;
-        chatHistory.setUnRead(newUnRead)
-    }
+    useEffect(() => {
+        socket.emit("join", {
+            uid: user.userId,
+            username: user.userName,
+            roomId: '1001',
+        });
+    }, [])
 
     const handleEnterRoom = (name, roomId) => {
         user.setCurrentRoom(roomId)
-        clearNotification(roomId)
+        const newUnRead = clearNotification(chatHistory.unRead, roomId)
+        if (newUnRead) {
+            chatHistory.setUnRead(newUnRead)
+        }
         navigation.navigate('ChatList', { name: name, roomId: roomId });
     }
 
@@ -38,12 +44,11 @@ export default function Rooms(props) {
         <VStack flex={1} w="100%">
             <Center>
                 {rooms.length > 0 && rooms.map((room) =>
-                    <RoomItem 
-                        name={room.name} 
-                        roomId={room.id} 
-                        key={room.id} 
+                    <RoomItem
+                        name={room.name}
+                        roomId={room.id}
+                        key={room.id}
                         handleEnterRoom={handleEnterRoom}
-                        count={chatHistory.unRead[room.id]?.count || 0}
                     />
                 )}
             </Center>

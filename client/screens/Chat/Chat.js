@@ -9,51 +9,38 @@ import { socket } from '../../utils/config';
 export default function Chat({ route }) {
     const { roomId } = route.params;
     const user = useContext(AuthContext);
-    const chatHistory = useContext(ChatContext);
+    const { chats, unRead, setUnRead } = useContext(ChatContext);
 
     // send join room to server
-    useEffect(() => {                
+    useEffect(() => {
         socket.emit("join", {
             uid: user.userId,
             username: user.userName,
             roomId: roomId,
         });
-        console.log(chatHistory.unRead)
     }, [])
 
-    // update join msg when receive, which will not store in storage
-    // useEffect(() => {
-    //     let isMounted = true;
-
-    //     socket.on('join', (res, callback) => {
-    //         if (isMounted) setChats([...chats, { type: 'join', text: `${res.name} has entered room` }])
-    //     })
-    //     socket.on('leave', (res, callback) => {
-    //         if (isMounted) setChats([...chats, { type: 'join', text: `${res.name} has left room` }])
-    //     })
-
-    //     return () => { isMounted = false };
-    // }, [])
-
+    // clear notification when use already in room
     useEffect(() => {
-        if (!chatHistory.unRead[roomId]) return;
-        let newUnRead = chatHistory.unRead;
+        if (!unRead[roomId]) return;
+        let newUnRead = unRead;
         newUnRead[roomId].count = 0;
-        chatHistory.setUnRead(newUnRead)
-    }, [chatHistory])
+        setUnRead(newUnRead)
+    }, [unRead, chats])
 
+    // send msg
     const handleSend = (text) => {
-        socket.emit("message", { 
-            uid: user.userId, 
+        socket.emit("message", {
+            uid: user.userId,
             roomId: roomId,
-            msg: text 
-        });        
+            msg: text
+        });
         // setChats([...chats, { type: 'msg', text: text, fromSelf: true }])
     }
 
     const renderItem = ({ item }) => (
-        <ChatItem 
-            text={item.text} 
+        <ChatItem
+            text={item.text}
             type={item.type}
             uid={item.uid}
         />
@@ -63,15 +50,13 @@ export default function Chat({ route }) {
         <Box flex={1}>
             <Box flex={1}>
                 <FlatList
-                    data={chatHistory.chats[roomId]}
+                    data={chats[roomId]}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => index.toString()}
                     inverted={true}
-                    // initialScrollIndex={(chatHistory.chats[roomId]).length - 1}
-                    // contentContainerStyle={{ flexDirection: 'column-reverse' }}
-                />                
-            </Box>            
-            <Box w="100%" 
+                />
+            </Box>
+            <Box w="100%"
                 // flex={0.08}
                 h={12}
                 border={0} borderTopWidth={1}

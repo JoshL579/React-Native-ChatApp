@@ -21,8 +21,8 @@ export const getUid = () => {
 }
 
 //chat history
-export const setChatHistory = (newMsg) => {
-    return _storeData('CHAT_HISTORY', newMsg)
+export const setChatHistory = (data) => {
+    return _storeData('CHAT_HISTORY', data)
 }
 
 export const getChatHistory = () => {
@@ -33,15 +33,14 @@ export const deleteChatHistory = () => {
     return _removeData('CHAT_HISTORY')
 }
 
-// const data = {
-//     '1001': [
-//         {
-//             from: 'self',
-//             type: 'text',
-//             msg: 'this is msg'
-//         }
-//     ]
-// }
+// unRead Chats
+export const setUnReadChats = (data) => {
+    return _storeData('UNREAD_CHATS', data)
+}
+
+export const getUnReadChats = () => {
+    return _retrieveData('UNREAD_CHATS')
+}
 
 //basic func
 const _storeData = async (key, value) => {

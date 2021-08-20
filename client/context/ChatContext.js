@@ -1,8 +1,7 @@
 import React, { useState, createContext, useEffect, useContext } from "react";
-import { getChatHistory, setChatHistory } from "../utils/store";
-import { socket } from "../utils/config";
-import { addChatHistory } from "../utils/history";
-import { AuthContext } from './AuthContext';
+import { getChatHistory, setChatHistory, getUnReadChats, setUnReadChats } from "../utils/store";
+import { addChatHistory, addUnReadChat } from "../utils/history";
+import { SocketContext } from "./SocketContext";
 
 export const ChatContext = createContext({
     chats: "",
@@ -12,7 +11,7 @@ export const ChatContext = createContext({
 });
 
 export const ChatContextProvider = (props) => {
-    const user = useContext(AuthContext);
+    const { message, setMessage } = useContext(SocketContext);
     const [chats, setChats] = useState({});
     const [unRead, setUnRead] = useState({});
     const value = { chats, setChats, unRead, setUnRead };
@@ -28,28 +27,26 @@ export const ChatContextProvider = (props) => {
     }, [])
 
     // update msg when receive
-    useEffect(() => {        
-        socket.on('message', (res) => {
-            console.log(user.userId)
-            console.log(res)
-            const roomId = res.roomId
-            const newMsg = {
-                [roomId]: {
-                    type: 'msg',
-                    text: res.msg,
-                    uid: res.uid
-                }
+    useEffect(() => {
+        if (!message) return
+        const roomId = message.roomId
+        const newMsg = {
+            [roomId]: {
+                type: 'msg',
+                text: message.msg,
+                uid: message.uid
             }
-            getChatHistory().then((chats) => {
-                const history = addChatHistory(chats, newMsg)
-                setChats(history)
-                setChatHistory(history)
-                let newUnRead = unRead
-                let count
-                newUnRead[roomId] ? (count = newUnRead[roomId].count + 1) : (count = 1)
-                newUnRead[roomId] = {count: count, text: res.msg}
-                setUnRead(newUnRead)
-            })            
+        }
+
+        getChatHistory().then((chats) => {
+            const history = addChatHistory(chats, newMsg)
+            setChats(history)
+            setChatHistory(history)
+            const newUnRead = addUnReadChat(message, unRead, roomId)
+            setUnRead(newUnRead)
+            setMessage(null)
+            //todo add unread into storage
+            //todo load unread when first open
         })
 
         // join & leave room msg
@@ -77,7 +74,7 @@ export const ChatContextProvider = (props) => {
         //         setChatHistory(history)
         //     })
         // })
-    }, [user.userId])
+    }, [message])
 
     return (
         <ChatContext.Provider value={value}>
