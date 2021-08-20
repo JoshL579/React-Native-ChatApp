@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
+import { Platform } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
 import { VStack, ScrollView, Box, FlatList } from 'native-base';
 import ChatItem from '../../components/Chat/ChatItem';
 import ChatInput from '../../components/Chat/ChatInput';
 import { socket } from '../../utils/config';
+import KeyboardSpacer from '../../components/Util/KeyBoardSpacer';
 
 export default function Chat({ route }) {
     const { roomId } = route.params;
     const user = useContext(AuthContext);
     const { chats, unRead, setUnRead } = useContext(ChatContext);
+    const [keyBoardOpen, setKeyBoardOpen] = useState(false);
 
     // send join room to server
     useEffect(() => {
@@ -58,13 +61,15 @@ export default function Chat({ route }) {
             </Box>
             <Box w="100%"
                 // flex={0.08}
-                h={12}
+                h={Platform.OS === 'ios' ? 20 : 12}
                 border={0} borderTopWidth={1}
                 borderColor="blueGray.300"
                 bg="blueGray.50"
             >
                 <ChatInput handleSend={handleSend} />
+                {Platform.OS === 'ios' && !keyBoardOpen && <Box h={8} />}
             </Box>
+            {Platform.OS === 'ios' && <KeyboardSpacer toggle={setKeyBoardOpen} />}
         </Box>
     )
 }
