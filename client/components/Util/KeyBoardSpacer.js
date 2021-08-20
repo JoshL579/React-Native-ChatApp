@@ -16,11 +16,11 @@ const defaultAnimation = {
 
 export default function KeyboardSpacer(props) {
     const [height, setHeight] = useState(0);
-    const { toggle } = props;
+    const { toggle, offset } = props;
 
     const updateKeyboardSpace = (e) => {
         if (!e.endCoordinates) return
-        const keyboardHeight = e.endCoordinates.height
+        const keyboardHeight = e.endCoordinates.height - (offset ? offset : 0)
         setHeight(keyboardHeight)
         return toggle(true)
     }
@@ -33,11 +33,11 @@ export default function KeyboardSpacer(props) {
     useEffect(() => {
         const updateListener = Platform.OS === 'android' ? 'keyboardDidShow' : 'keyboardWillShow';
         const resetListener = Platform.OS === 'android' ? 'keyboardDidHide' : 'keyboardWillHide';
-        Keyboard.addListener(updateListener,updateKeyboardSpace);
+        Keyboard.addListener(updateListener, updateKeyboardSpace);
         Keyboard.addListener(resetListener, resetKeyboardSpace)
     }, [])
 
     return (
-        <View style={{height: height}} />
+        <View style={{ height: height }} />
     )
 }

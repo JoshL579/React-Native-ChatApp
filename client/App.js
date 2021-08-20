@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import { theme } from './theme/theme';
 import { NativeBaseProvider } from 'native-base';
 import { AuthContextProvider } from './context/AuthContext';
@@ -10,15 +10,17 @@ import NavBarBottom from './navigations';
 
 export default function App() {
   return (
-    <NativeBaseProvider theme={theme}>
-      <AuthContextProvider>
-        <SocketProvider>
-          <ChatContextProvider>
-            <NavBarBottom />
-          </ChatContextProvider>
-        </SocketProvider>
-      </AuthContextProvider>
-    </NativeBaseProvider>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NativeBaseProvider theme={theme}>
+        <AuthContextProvider>
+          <SocketProvider>
+            <ChatContextProvider>
+              <NavBarBottom />
+            </ChatContextProvider>
+          </SocketProvider>
+        </AuthContextProvider>
+      </NativeBaseProvider>
+    </SafeAreaView>
   );
 }
 
