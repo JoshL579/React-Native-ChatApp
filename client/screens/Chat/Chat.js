@@ -67,9 +67,9 @@ export default function Chat({ route }) {
                 bg="blueGray.50"
             >
                 <ChatInput handleSend={handleSend} />
-                {Platform.OS === 'ios' && !keyBoardOpen && <Box h={8} />}
+                {Platform.OS === 'ios' && <Box h={8} />}
             </Box>
-            {Platform.OS === 'ios' && <KeyboardSpacer toggle={setKeyBoardOpen} offset={8} />}
+            {Platform.OS === 'ios' && <KeyboardSpacer toggle={setKeyBoardOpen} offset={32} />}
         </Box>
     )
 }
