@@ -16,6 +16,7 @@ export default function RoomItem(props) {
                 alignItems="center"
                 flexDirection="row"
                 onPress={() => handleEnterRoom(name, roomId)}
+                _pressed={{ bg: "blueGray.300"}}
             >
                 <HStack alignItems="flex-start" w="100%">
                     <Box bg="blueGray.400" w={12} h={12} borderRadius={5}
