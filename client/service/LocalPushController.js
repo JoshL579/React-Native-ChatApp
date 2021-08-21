@@ -31,6 +31,17 @@ export async function sendPushNotification(expoPushToken) {
     });
 }
 
+export async function sendLocalNotification() {
+    await Notifications.scheduleNotificationAsync({
+        content: {
+            title: "You've got mail! 📬",
+            body: 'Here is the notification body',
+            data: { data: 'goes here' },
+        },
+        trigger: { seconds: 2 },
+    });
+}
+
 export async function registerForPushNotificationsAsync() {
     let token;
     if (Constants.isDevice) {

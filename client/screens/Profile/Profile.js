@@ -2,11 +2,11 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
 import { Center, VStack, Button, useTheme, Text } from 'native-base';
-import { deleteToken, deleteChatHistory } from '../../utils/store';
+import { deleteToken, deleteChatHistory} from '../../utils/store';
 
 // notification part
 import * as Notifications from 'expo-notifications';
-import { sendPushNotification, registerForPushNotificationsAsync } from '../../service/LocalPushController';
+import { sendPushNotification, registerForPushNotificationsAsync, sendLocalNotification } from '../../service/LocalPushController';
 
 export default function Profile() {
     const user = useContext(AuthContext);
@@ -58,9 +58,15 @@ export default function Profile() {
             </Center>
             <Center mt={4}>
                 <Text>Your expo push token: {expoPushToken}</Text>
-                <Button onPress={async () => {
-                    await sendPushNotification(expoPushToken);
-                }} bg="blueGray.600" colorScheme="blueGray" w="100%">
+                <Button
+                    // onPress={async () => {
+                    //     await sendPushNotification(expoPushToken);
+                    // }}
+                    onPress={async () => {
+                        await sendLocalNotification();
+                    }}
+                    bg="blueGray.600" colorScheme="blueGray" w="100%"
+                >
                     Push Notification
                 </Button>
             </Center>
