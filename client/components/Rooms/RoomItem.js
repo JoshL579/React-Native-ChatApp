@@ -4,7 +4,7 @@ import { ChatContext } from '../../context/ChatContext';
 
 export default function RoomItem(props) {
     const { name, roomId, handleEnterRoom } = props;
-    const { unRead } = useContext(ChatContext);
+    const { unRead, chats } = useContext(ChatContext);
 
     return (
         <>
@@ -44,7 +44,8 @@ export default function RoomItem(props) {
                             <Text fontSize="md" color="blueGray.500"
                                 numberOfLines={1}
                             >
-                                {unRead[roomId]?.text}
+                                {chats[roomId] && chats[roomId][0] && 
+                                chats[roomId][0].text}
                             </Text>
                         </Box>
                     </Box>
