@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-import { Center, VStack, Button, useTheme } from 'native-base';
+import { Center, VStack, Button, useTheme, Text } from 'native-base';
 import { deleteToken, deleteChatHistory } from '../../utils/store';
 
+// notification part
+import * as Notifications from 'expo-notifications';
+import { sendPushNotification, registerForPushNotificationsAsync } from '../../service/LocalPushController';
 
 export default function Profile() {
     const user = useContext(AuthContext);
@@ -17,6 +20,34 @@ export default function Profile() {
         deleteChatHistory()
         chatHistory.setChats('')
     }
+
+
+    // notification part -------------------------------------------------------
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
+
+    useEffect(() => {
+        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+        // This listener is fired whenever a notification is received while the app is foregrounded
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+            setNotification(notification);
+        });
+
+        // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log(response);
+        });
+
+        return () => {
+            Notifications.removeNotificationSubscription(notificationListener.current);
+            Notifications.removeNotificationSubscription(responseListener.current);
+        };
+    }, []);
+
+
     return (
         <VStack flex={1} w="100%">
             <Center mt={4}>
@@ -24,6 +55,14 @@ export default function Profile() {
             </Center>
             <Center mt={4}>
                 <Button onPress={handleClearHistory} bg="blueGray.600" colorScheme="blueGray" w="100%">Clear History</Button>
+            </Center>
+            <Center mt={4}>
+                <Text>Your expo push token: {expoPushToken}</Text>
+                <Button onPress={async () => {
+                    await sendPushNotification(expoPushToken);
+                }} bg="blueGray.600" colorScheme="blueGray" w="100%">
+                    Push Notification
+                </Button>
             </Center>
         </VStack>
     )
