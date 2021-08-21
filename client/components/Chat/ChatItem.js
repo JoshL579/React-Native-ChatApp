@@ -21,7 +21,7 @@ export default function ChatItem(props) {
     }
     return (
         <Box p={2}>
-            {loading? '' : 
+            {loading ? '' :
                 <HStack flexDirection={uid === user.userId ? "row-reverse" : "row"}>
                     <Box bg="blueGray.400" w={10} h={10} mx={2} borderRadius={5} />
                     <Box border={1}
@@ -32,14 +32,12 @@ export default function ChatItem(props) {
                         py={2}
                         px={3}
                     >
-                        <Center>
-                            <Text>
-                                {text}
-                            </Text>
-                        </Center>
+                        <Text>
+                            {text}
+                        </Text>
                     </Box>
                 </HStack>
-            }            
+            }
         </Box>
     )
 }

@@ -42,16 +42,14 @@ export default function Rooms(props) {
 
     return (
         <VStack flex={1} w="100%">
-            <Center>
-                {rooms.length > 0 && rooms.map((room) =>
-                    <RoomItem
-                        name={room.name}
-                        roomId={room.id}
-                        key={room.id}
-                        handleEnterRoom={handleEnterRoom}
-                    />
-                )}
-            </Center>
+            {rooms.length > 0 && rooms.map((room) =>
+                <RoomItem
+                    name={room.name}
+                    roomId={room.id}
+                    key={room.id}
+                    handleEnterRoom={handleEnterRoom}
+                />
+            )}
         </VStack>
     )
 }
