@@ -61,13 +61,12 @@ export default function Chat({ route }) {
             </Box>
             <Box w="100%"
                 // flex={0.08}
-                h={Platform.OS === 'ios' ? 20 : 12}
+                h={12}
                 border={0} borderTopWidth={1}
                 borderColor="blueGray.300"
                 bg="blueGray.50"
             >
                 <ChatInput handleSend={handleSend} />
-                {Platform.OS === 'ios' && <Box h={8} />}
             </Box>
             {Platform.OS === 'ios' && <KeyboardSpacer toggle={setKeyBoardOpen} offset={32} />}
         </Box>

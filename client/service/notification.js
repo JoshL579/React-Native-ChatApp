@@ -31,14 +31,10 @@ export async function sendPushNotification(expoPushToken) {
     });
 }
 
-export async function sendLocalNotification() {
+export async function sendLocalNotification(msg, time=null) {
     await Notifications.scheduleNotificationAsync({
-        content: {
-            title: "You've got mail! 📬",
-            body: 'Here is the notification body',
-            data: { data: 'goes here' },
-        },
-        trigger: { seconds: 2 },
+        content: msg,
+        trigger: time,
     });
 }
 

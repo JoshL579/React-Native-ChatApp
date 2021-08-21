@@ -5,8 +5,8 @@ import { Center, VStack, Button, useTheme, Text } from 'native-base';
 import { deleteToken, deleteChatHistory} from '../../utils/store';
 
 // notification part
-import * as Notifications from 'expo-notifications';
-import { sendPushNotification, registerForPushNotificationsAsync, sendLocalNotification } from '../../service/LocalPushController';
+// import * as Notifications from 'expo-notifications';
+// import { sendPushNotification, registerForPushNotificationsAsync, sendLocalNotification } from '../../service/notification';
 
 export default function Profile() {
     const user = useContext(AuthContext);
@@ -23,29 +23,29 @@ export default function Profile() {
 
 
     // notification part -------------------------------------------------------
-    const [expoPushToken, setExpoPushToken] = useState('');
-    const [notification, setNotification] = useState(false);
-    const notificationListener = useRef();
-    const responseListener = useRef();
+    // const [expoPushToken, setExpoPushToken] = useState('');
+    // const [notification, setNotification] = useState(false);
+    // const notificationListener = useRef();
+    // const responseListener = useRef();
 
-    useEffect(() => {
-        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    // useEffect(() => {
+    //     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
-        // This listener is fired whenever a notification is received while the app is foregrounded
-        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            setNotification(notification);
-        });
+    //     // This listener is fired whenever a notification is received while the app is foregrounded
+    //     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    //         setNotification(notification);
+    //     });
 
-        // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log(response);
-        });
+    //     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    //     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    //         console.log(response);
+    //     });
 
-        return () => {
-            Notifications.removeNotificationSubscription(notificationListener.current);
-            Notifications.removeNotificationSubscription(responseListener.current);
-        };
-    }, []);
+    //     return () => {
+    //         Notifications.removeNotificationSubscription(notificationListener.current);
+    //         Notifications.removeNotificationSubscription(responseListener.current);
+    //     };
+    // }, []);
 
 
     return (
@@ -56,7 +56,7 @@ export default function Profile() {
             <Center mt={4}>
                 <Button onPress={handleClearHistory} bg="blueGray.600" colorScheme="blueGray" w="100%">Clear History</Button>
             </Center>
-            <Center mt={4}>
+            {/* <Center mt={4}>
                 <Text>Your expo push token: {expoPushToken}</Text>
                 <Button
                     // onPress={async () => {
@@ -69,7 +69,7 @@ export default function Profile() {
                 >
                     Push Notification
                 </Button>
-            </Center>
+            </Center> */}
         </VStack>
     )
 }

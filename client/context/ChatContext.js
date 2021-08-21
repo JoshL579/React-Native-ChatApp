@@ -1,7 +1,10 @@
 import React, { useState, createContext, useEffect, useContext } from "react";
+import { Platform } from "react-native";
 import { getChatHistory, setChatHistory, getUnReadChats, setUnReadChats } from "../utils/store";
 import { addChatHistory, addUnReadChat } from "../utils/history";
 import { SocketContext } from "./SocketContext";
+import { sendLocalNotification } from '../service/notification';
+import { AuthContext } from "./AuthContext";
 
 export const ChatContext = createContext({
     chats: "",
@@ -12,6 +15,7 @@ export const ChatContext = createContext({
 
 export const ChatContextProvider = (props) => {
     const { message, setMessage } = useContext(SocketContext);
+    const { userId } = useContext(AuthContext);
     const [chats, setChats] = useState({});
     const [unRead, setUnRead] = useState({});
     const value = { chats, setChats, unRead, setUnRead };
@@ -47,6 +51,14 @@ export const ChatContextProvider = (props) => {
             setMessage(null)
             //todo add unread into storage
             //todo load unread when first open
+            if (Platform.OS !== 'web' && message.uid !== userId) { 
+                const notificationMsg = {
+                    title: "You've Received a New Message! 📧",
+                    body: message.msg.length <= 20 ? message.msg : message.msg.substring(0, 20) + '...',
+                    data: { uid: message.uid },
+                }
+                sendLocalNotification(notificationMsg)
+            }
         })
 
         // join & leave room msg
