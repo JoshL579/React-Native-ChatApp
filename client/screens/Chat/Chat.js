@@ -6,7 +6,7 @@ import { VStack, ScrollView, Box, FlatList } from 'native-base';
 import ChatItem from '../../components/Chat/ChatItem';
 import ChatInput from '../../components/Chat/ChatInput';
 import { socket } from '../../utils/config';
-import KeyboardSpacer from '../../components/Util/KeyBoardSpacer';
+import KeyboardSpacer from '../../components/Modules/KeyBoardSpacer';
 
 export default function Chat({ route }) {
     const { roomId, name } = route.params;
