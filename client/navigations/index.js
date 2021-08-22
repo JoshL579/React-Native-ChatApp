@@ -4,13 +4,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator, CardStyleInterpolators, } from '@react-navigation/stack';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
-import { useTheme } from 'native-base';
+import { useTheme, Button } from 'native-base';
 import Auth from '../screens/Auth/Auth';
 import Rooms from '../screens/Rooms/Rooms';
 import Profile from '../screens/Profile/Profile';
 import Chat from '../screens/Chat/Chat';
 import { AuthContext } from '../context/AuthContext';
 import { navigationRef } from './navigationRef';
+import AddMenu from '../components/Rooms/AddMenu';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,7 +25,10 @@ function ChatFregment() {
                 name="Rooms"
                 component={Rooms}
                 options={{
-                    title: 'Chat'
+                    title: 'Chat',
+                    headerRight: () => (
+                        <AddMenu />
+                    ),
                 }}
             />
         </Stack.Navigator>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Center, HStack, Button, useTheme, Text, Box, Image, VStack } from 'native-base';
-
+import { Center, HStack, Button, useTheme, Text, Box, Image, VStack, Icon } from 'native-base';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function UserInfoBanner(props) {
     const { userId, userName } = useContext(AuthContext);
@@ -22,9 +22,13 @@ export default function UserInfoBanner(props) {
                         </Text>
                     </Box>
                     <Box w={12}>
-                        <Text>
-                            &gt;
-                        </Text>
+                        <Icon
+                            color="blueGray.500"
+                            size={6}
+                            as={
+                                <AntDesign name="right" />
+                            }
+                        />
                     </Box>
                 </HStack>
             </VStack>
