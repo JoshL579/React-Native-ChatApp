@@ -9,6 +9,7 @@ import Auth from '../screens/Auth/Auth';
 import Rooms from '../screens/Rooms/Rooms';
 import Profile from '../screens/Profile/Profile';
 import Chat from '../screens/Chat/Chat';
+import Setting from '../screens/Setting/Setting';
 import { AuthContext } from '../context/AuthContext';
 import { navigationRef } from './navigationRef';
 import AddMenu from '../components/Rooms/AddMenu';
@@ -84,6 +85,10 @@ export default function NavBarBottom() {
                                 options={(
                                     { route }) => ({ title: route.params.name }
                                 )}
+                            />
+                            <Stack.Screen 
+                                name="Setting"
+                                component={Setting}
                             />
                         </>
                         :

@@ -24,7 +24,7 @@ export default function UserInfoBanner(props) {
                     <Box w={12}>
                         <Icon
                             color="blueGray.500"
-                            size={6}
+                            size={4}
                             as={
                                 <AntDesign name="right" />
                             }

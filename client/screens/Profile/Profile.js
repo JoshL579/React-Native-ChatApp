@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-import { Center, VStack, Button, useTheme, Text, Box } from 'native-base';
+import { Center, VStack, Button, useTheme, Text, Box, Pressable } from 'native-base';
 import { deleteToken, deleteChatHistory } from '../../utils/store';
 import UserInfoBanner from '../../components/Profile/UserInfoBanner';
+import { navigateFromOutside } from '../../navigations/navigationRef';
 
 // notification part
 // import * as Notifications from 'expo-notifications';
@@ -12,11 +13,17 @@ import UserInfoBanner from '../../components/Profile/UserInfoBanner';
 export default function Profile() {
     const user = useContext(AuthContext);
     const chatHistory = useContext(ChatContext);
+
+    const navigateToSetting = () => {
+        navigateFromOutside('Setting', {})
+    }
+
     const handleLogout = () => {
         deleteToken().then((res) => {
             user.setUserId('')
         })
     }
+
     const handleClearHistory = () => {
         deleteChatHistory()
         chatHistory.setChats('')
@@ -51,9 +58,9 @@ export default function Profile() {
 
     return (
         <VStack flex={1} w="100%">
-            <Box>
+            <Pressable onPress={navigateToSetting}>
                 <UserInfoBanner />
-            </Box>
+            </Pressable>
             <Center mt={4}>
                 <Button onPress={handleLogout} bg="blueGray.500" colorScheme="blueGray" w="100%" py={4}>
                     LogOut
