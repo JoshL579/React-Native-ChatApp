@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-import { Center, VStack, Button, useTheme, Text } from 'native-base';
-import { deleteToken, deleteChatHistory} from '../../utils/store';
+import { Center, VStack, Button, useTheme, Text, Box } from 'native-base';
+import { deleteToken, deleteChatHistory } from '../../utils/store';
+import UserInfoBanner from '../../components/Profile/UserInfoBanner';
 
 // notification part
 // import * as Notifications from 'expo-notifications';
@@ -50,11 +51,18 @@ export default function Profile() {
 
     return (
         <VStack flex={1} w="100%">
+            <Box>
+                <UserInfoBanner />
+            </Box>
             <Center mt={4}>
-                <Button onPress={handleLogout} bg="blueGray.600" colorScheme="blueGray" w="100%">LogOut</Button>
+                <Button onPress={handleLogout} bg="blueGray.500" colorScheme="blueGray" w="100%" py={4}>
+                    LogOut
+                </Button>
             </Center>
             <Center mt={4}>
-                <Button onPress={handleClearHistory} bg="blueGray.600" colorScheme="blueGray" w="100%">Clear History</Button>
+                <Button onPress={handleClearHistory} bg="blueGray.500" colorScheme="blueGray" w="100%" py={4}>
+                    Clear History
+                </Button>
             </Center>
             {/* <Center mt={4}>
                 <Text>Your expo push token: {expoPushToken}</Text>
