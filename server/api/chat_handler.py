@@ -12,7 +12,12 @@ def test_broadcast(data):
     room_id = data.get('roomId', '1000')
     # todo: add msg to db
     # todo: check if user is in that room
-    emit('message', {'msg': data.get('msg'), 'uid': data.get('uid'), 'roomId': room_id}, to=room_id)
+    emit('message', {
+        'msg': data.get('msg'),
+        'uid': data.get('uid'),
+        'roomId': room_id,
+        'roomName': data.get('roomName')
+    }, to=room_id)
 
 
 @chat_handler.on('join')

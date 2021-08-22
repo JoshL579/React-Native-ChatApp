@@ -9,7 +9,7 @@ import { socket } from '../../utils/config';
 import KeyboardSpacer from '../../components/Util/KeyBoardSpacer';
 
 export default function Chat({ route }) {
-    const { roomId } = route.params;
+    const { roomId, name } = route.params;
     const user = useContext(AuthContext);
     const { chats, unRead, setUnRead } = useContext(ChatContext);
     const [keyBoardOpen, setKeyBoardOpen] = useState(false);
@@ -36,6 +36,7 @@ export default function Chat({ route }) {
         socket.emit("message", {
             uid: user.userId,
             roomId: roomId,
+            roomName: name,
             msg: text
         });
         // setChats([...chats, { type: 'msg', text: text, fromSelf: true }])

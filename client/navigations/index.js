@@ -10,6 +10,7 @@ import Rooms from '../screens/Rooms/Rooms';
 import Profile from '../screens/Profile/Profile';
 import Chat from '../screens/Chat/Chat';
 import { AuthContext } from '../context/AuthContext';
+import { navigationRef } from './navigationRef';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -65,7 +66,7 @@ function MainActivity() {
 export default function NavBarBottom() {
     const user = useContext(AuthContext)
     return (
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
             <Stack.Navigator screenOptions={{
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
             }}>

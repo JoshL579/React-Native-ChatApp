@@ -24,7 +24,7 @@ export default function RoomItem(props) {
                     >
                         {unRead[roomId] && unRead[roomId].count > 0 &&
                             <Box bg='blueGray.500' borderRadius={100} p={0} m={0}
-                                position="absolute" right="-8" top="-8"
+                                position="absolute" right="-8px" top="-8px"
                                 h={6} w={6} textAlign="center"
                                 align-items="center" justify-content="center"
                             >

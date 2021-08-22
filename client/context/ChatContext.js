@@ -1,10 +1,21 @@
-import React, { useState, createContext, useEffect, useContext } from "react";
+import React, { useState, createContext, useEffect, useContext, useRef } from "react";
 import { Platform } from "react-native";
 import { getChatHistory, setChatHistory, getUnReadChats, setUnReadChats } from "../utils/store";
 import { addChatHistory, addUnReadChat } from "../utils/history";
 import { SocketContext } from "./SocketContext";
 import { sendLocalNotification } from '../service/notification';
 import { AuthContext } from "./AuthContext";
+import * as Notifications from 'expo-notifications';
+// import { createNavigationContainerRef } from '@react-navigation/native';
+import { navigateFromOutside } from "../navigations/navigationRef";
+
+// const navigationRef = createNavigationContainerRef()
+
+// function navigate(name, params) {
+//     if (navigationRef.isReady()) {
+//         navigationRef.navigate(name, params);
+//     }
+// }
 
 export const ChatContext = createContext({
     chats: "",
@@ -19,6 +30,7 @@ export const ChatContextProvider = (props) => {
     const [chats, setChats] = useState({});
     const [unRead, setUnRead] = useState({});
     const value = { chats, setChats, unRead, setUnRead };
+    const responseListener = useRef();
 
     // update history state when reload
     useEffect(() => {
@@ -28,6 +40,13 @@ export const ChatContextProvider = (props) => {
                 return setChats(res);
             }
         })
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(res => {
+            console.log(res);
+            const roomName = res.notification.request.content.data.roomName;
+            const roomId = res.notification.request.content.data.roomId;
+            console.log(roomName,roomId)
+            navigateFromOutside('ChatList', { name: roomName, roomId: roomId })
+        });
     }, [])
 
     // update msg when receive
@@ -51,11 +70,11 @@ export const ChatContextProvider = (props) => {
             setMessage(null)
             //todo add unread into storage
             //todo load unread when first open
-            if (Platform.OS !== 'web' && message.uid !== userId) { 
+            if (Platform.OS !== 'web' && message.uid !== userId) {
                 const notificationMsg = {
                     title: "You've Received a New Message! 📧",
                     body: message.msg.length <= 20 ? message.msg : message.msg.substring(0, 20) + '...',
-                    data: { uid: message.uid },
+                    data: { uid: message.uid, roomName: message.roomName, roomId: message.roomId },
                 }
                 sendLocalNotification(notificationMsg)
             }
