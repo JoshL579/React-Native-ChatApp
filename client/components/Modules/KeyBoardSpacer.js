@@ -31,10 +31,14 @@ export default function KeyboardSpacer(props) {
     }
 
     useEffect(() => {
+        let isMounted = true;
         const updateListener = Platform.OS === 'android' ? 'keyboardDidShow' : 'keyboardWillShow';
         const resetListener = Platform.OS === 'android' ? 'keyboardDidHide' : 'keyboardWillHide';
-        Keyboard.addListener(updateListener, updateKeyboardSpace);
-        Keyboard.addListener(resetListener, resetKeyboardSpace)
+        if (isMounted) {
+            Keyboard.addListener(updateListener, updateKeyboardSpace);
+            Keyboard.addListener(resetListener, resetKeyboardSpace)
+        }
+        return () => { isMounted = false }
     }, [])
 
     return (
