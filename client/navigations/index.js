@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator, CardStyleInterpolators, } from '@react-navigation/stack';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
-import { useTheme, Button } from 'native-base';
+import { useTheme, Button, Icon } from 'native-base';
 import Auth from '../screens/Auth/Auth';
 import Rooms from '../screens/Rooms/Rooms';
 import Profile from '../screens/Profile/Profile';
@@ -14,6 +14,7 @@ import Search from '../screens/Search/Search';
 import { AuthContext } from '../context/AuthContext';
 import { navigationRef } from './navigationRef';
 import AddMenu from '../components/Rooms/AddMenu';
+import { Ionicons } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -75,7 +76,14 @@ export default function NavBarBottom() {
         <NavigationContainer ref={navigationRef}>
             <Stack.Navigator screenOptions={{
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-                initialRouteName: 'Main'
+                initialRouteName: 'Main',
+                headerBackImage: () => <Icon
+                    size={6}
+                    color="blueGray.900"
+                    as={
+                        <Ionicons name="chevron-back" />
+                    }
+                />,
             }}>
                 {
                     user.userId ?
@@ -88,11 +96,11 @@ export default function NavBarBottom() {
                                     { route }) => ({ title: route.params.name }
                                 )}
                             />
-                            <Stack.Screen 
+                            <Stack.Screen
                                 name="Setting"
                                 component={Setting}
                             />
-                            <Stack.Screen 
+                            <Stack.Screen
                                 name="Search"
                                 component={Search}
                             />

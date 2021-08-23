@@ -3,7 +3,7 @@ import { HStack, Input, Icon, Text } from 'native-base';
 import { EvilIcons } from '@expo/vector-icons';
 
 export default function SearchInput(props) {
-    const { searchUserId, handleSearchInput } = props;
+    const { searchUserId, handleSearchInput, type } = props;
 
     return (
         <HStack position="relative">
@@ -27,7 +27,7 @@ export default function SearchInput(props) {
                             color: "blueGray.50",
                         }}
                     >
-                        Enter User ID
+                        {type === 'single' ? 'Enter User ID' : 'Enter Room ID'}
                         </Text>
                 </HStack>
             }

@@ -4,7 +4,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
 import SearchInput from '../../components/Search/SearchInput';
 
-export default function Search(props) {
+export default function Search({ route }) {
+    const { type } = route.params;
     const [searchUserId, setSearchUserId] = useState('')
 
     const handleSearchInput = (text) => {
@@ -13,7 +14,11 @@ export default function Search(props) {
 
     return (
         <VStack flex={1} w="100%">
-            <SearchInput searchUserId={searchUserId} handleSearchInput={handleSearchInput} />
+            <SearchInput
+                searchUserId={searchUserId}
+                handleSearchInput={handleSearchInput}
+                type={type}
+            />
         </VStack>
     )
 }
