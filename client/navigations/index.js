@@ -10,6 +10,7 @@ import Rooms from '../screens/Rooms/Rooms';
 import Profile from '../screens/Profile/Profile';
 import Chat from '../screens/Chat/Chat';
 import Setting from '../screens/Setting/Setting';
+import Search from '../screens/Search/Search';
 import { AuthContext } from '../context/AuthContext';
 import { navigationRef } from './navigationRef';
 import AddMenu from '../components/Rooms/AddMenu';
@@ -73,7 +74,8 @@ export default function NavBarBottom() {
     return (
         <NavigationContainer ref={navigationRef}>
             <Stack.Navigator screenOptions={{
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                initialRouteName: 'Main'
             }}>
                 {
                     user.userId ?
@@ -89,6 +91,10 @@ export default function NavBarBottom() {
                             <Stack.Screen 
                                 name="Setting"
                                 component={Setting}
+                            />
+                            <Stack.Screen 
+                                name="Search"
+                                component={Search}
                             />
                         </>
                         :

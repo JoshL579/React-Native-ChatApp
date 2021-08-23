@@ -6,7 +6,8 @@ import re
 from utils.auth.token_generator import token_generator
 from utils.auth.token_decoder import token_decoder
 import hashlib
-from config import users
+from config import mongo
+from bson import ObjectId
 
 auth_handler = Blueprint('auth_handler', __name__)
 
@@ -28,27 +29,23 @@ def login():
     if not re.search(regex, email):
         return jsonify({'success': False, 'msg': 'Invalid email'}), 400
 
-    # # search db & ignore case
-    # user = mongo.db.users.find_one({'email': re.compile('^' + re.escape(email) + '$', re.IGNORECASE)})
-    #
-    # # user not exist
-    # if user is None:
-    #     return jsonify({'success': False, 'msg': 'Please Sign Up'}), 200
-    #
-    # # password wrong
-    # hash_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-    # if user['password'] != hash_password:
-    #     return jsonify({'success': False, 'msg': 'Invalid Username or Password'}), 200
-    #
+    # search db & ignore case
+    user = mongo.db.users.find_one({'email': re.compile('^' + re.escape(email) + '$', re.IGNORECASE)})
 
-    for user in users:
-        if user.get('email') == email and user.get('password') == password:
-            uid = user.get('id')
-            token = token_generator(uid)
-            return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'token': token, 'name': user.get('name')})
-            # res.set_cookie('token', token, httponly=True)
-            # return res, 200
-    return jsonify({'success': False, 'msg': 'Invalid Email or Password'}), 400
+    # user not exist
+    if user is None:
+        return jsonify({'success': False, 'msg': 'Please Sign Up'}), 200
+
+    # password wrong
+    hash_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    if user['password'] != hash_password:
+        return jsonify({'success': False, 'msg': 'Invalid Username or Password'}), 200
+
+    # login user
+    uid = str(user.get('_id'))
+    token = token_generator(uid)
+    full_name = user.get('first_name') + ' ' + user.get('last_name')
+    return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'token': token, 'name': full_name})
 
 
 @auth_handler.route('/auth', methods=['POST'])
@@ -57,7 +54,8 @@ def check_token():
     if token is None:
         return jsonify({'success': False, 'msg': 'Empty Token'}), 400
     uid = token_decoder(token).get('uid')
-    for user in users:
-        if user.get('id') == uid:
-            return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'name': user.get('name')}), 200
+    user = mongo.db.users.find_one({'_id': ObjectId(uid)})
+    if user is not None:
+        full_name = user.get('first_name') + ' ' + user.get('last_name')
+        return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'name': full_name}), 200
     return jsonify({'success': False, 'msg': 'Invalid Token'}), 400

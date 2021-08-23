@@ -1,14 +1,17 @@
 from flask import Flask
 from flask_cors import CORS
+import config
 from config import url_prefix, users
 from flask_socketio import SocketIO
 from api.auth_handler import auth_handler
 from api.room_handler import room_handler
 from api.chat_handler import chat_handler
-
+from config import mongo
 
 app = Flask(__name__)
 app.debug = True
+app.config.from_object(config)
+mongo.init_app(app)
 CORS(app)
 socketio = SocketIO(app, ping_timeout=5)
 socketio.init_app(app, cors_allowed_origins="*")

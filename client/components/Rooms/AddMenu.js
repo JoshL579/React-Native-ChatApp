@@ -13,8 +13,13 @@ import { ChatContext } from '../../context/ChatContext';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { navigateFromOutside } from '../../navigations/navigationRef';
+
 
 export default function AddMenu(props) {
+    const navigateToSearch = (type) => {
+        navigateFromOutside('Search', { type: type })
+    }
     return (
         <Box>
             <Menu
@@ -37,7 +42,7 @@ export default function AddMenu(props) {
                 mt={Platform.OS === 'ios' ? -10 : 2}
                 p={0}
             >
-                <Menu.Item>
+                <Menu.Item onPress={() => navigateToSearch('multi')}>
                     <HStack>
                         <Icon
                             as={<MaterialCommunityIcons name="chat-plus-outline" />}
@@ -46,11 +51,11 @@ export default function AddMenu(props) {
                         />
                         <Text pl={2} color="blueGray.900">
                             Add Chat Room
-                        </Text>
+                            </Text>
                     </HStack>
                 </Menu.Item>
                 <Divider />
-                <Menu.Item>
+                <Menu.Item onPress={() => navigateToSearch('single')}>
                     <HStack>
                         <Icon
                             as={<AntDesign name="adduser" />}

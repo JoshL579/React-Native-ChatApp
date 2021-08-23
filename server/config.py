@@ -1,6 +1,7 @@
 from os import getenv
 import datetime
 import json
+from flask_pymongo import PyMongo
 
 # API
 url_prefix = "/api"
@@ -16,3 +17,7 @@ JWT_REFRESH_CSRF_HEADER_NAME = "X-CSRF-TOKEN-REFRESH"
 
 # users
 users = json.loads(str(getenv("USERS", [])))
+
+# DB
+MONGO_URI = getenv('MONGODB_URI')
+mongo = PyMongo()
