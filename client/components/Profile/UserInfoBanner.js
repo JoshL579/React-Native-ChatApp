@@ -21,7 +21,7 @@ export default function UserInfoBanner(props) {
                             ID: {userId}
                         </Text>
                     </Box>
-                    <Box w={12}>
+                    <Box w={6}>
                         <Icon
                             color="blueGray.500"
                             size={4}
