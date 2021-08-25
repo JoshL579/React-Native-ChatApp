@@ -14,7 +14,7 @@ const _request = (url, method, params = null, payload = null) => {
                 'Content-Type': 'application/json'
             },
             params: params,
-            body: payload ? JSON.stringify(payload) : null
+            body: payload ? (payload instanceof FormData ? payload : JSON.stringify(payload)) : null
         }).then((res) => {
             status = res.status;
             if (status < 500) return res.json()

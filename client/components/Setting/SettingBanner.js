@@ -30,17 +30,17 @@ export default function SettingBanner(props) {
             allowsEditing: true,
             aspect: [1, 1],
             quality: 0.5,
-            base64: true
+            base64: false
         });
 
         // console.log(result);
 
         if (!result.cancelled) {
-            setImg(result.base64);
+            setImg(result.uri);
             
             getToken().then((token) => {
                 const payload = {
-                    img: result.base64,
+                    img: result.uri,
                     token: token
                 }
                 upload(payload).then((res) => {
