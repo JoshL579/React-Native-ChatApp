@@ -57,5 +57,5 @@ def check_token():
     user = mongo.db.users.find_one({'_id': ObjectId(uid)})
     if user is not None:
         full_name = user.get('first_name') + ' ' + user.get('last_name')
-        return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'name': full_name}), 200
+        return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'name': full_name, 'img': True}), 200
     return jsonify({'success': False, 'msg': 'Invalid Token'}), 400

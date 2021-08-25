@@ -7,9 +7,10 @@ from api.auth_handler import auth_handler
 from api.room_handler import room_handler
 from api.chat_handler import chat_handler
 from api.profile_handler import profile_handler
+from api.static_handler import static_handler
 from config import mongo
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.debug = True
 app.config.from_object(config)
 mongo.init_app(app)
@@ -20,6 +21,7 @@ socketio.init_app(app, cors_allowed_origins="*")
 app.register_blueprint(auth_handler, url_prefix=url_prefix)
 app.register_blueprint(room_handler, url_prefix=url_prefix)
 app.register_blueprint(profile_handler, url_prefix=url_prefix)
+app.register_blueprint(static_handler, url_prefix=url_prefix)
 chat_handler.init_io(socketio)
 
 if __name__ == '__main__':

@@ -5,8 +5,12 @@ export const upload = (payload) => {
     Object.keys(payload).map((key) => {
         formData.append(key, payload[key])
     })
+    const headers = {
+        // 'Content-Type': 'multipart/form-data'
+    }
     return post({
         url: '/profile/upload',
-        payload: formData
+        payload: formData,
+        headers: headers
     })
 }

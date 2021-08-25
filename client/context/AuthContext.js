@@ -2,6 +2,7 @@ import React, { useState, createContext, useEffect } from "react";
 import { Center, Spinner } from "native-base";
 import { getToken } from "../utils/store";
 import { checkToken } from "../api/auth";
+import { baseUrl } from "../utils/config";
 
 
 export const AuthContext = createContext({
@@ -9,6 +10,8 @@ export const AuthContext = createContext({
     setUserId: () => { },
     userName: "",
     setUserName: () => { },
+    userPic: "",
+    setUserPic: () => { },
     currentRoom: "",
     setCurrentRoom: () => { }
 });
@@ -17,8 +20,9 @@ export const AuthContextProvider = (props) => {
     const [userId, setUserId] = useState("");
     const [userName, setUserName] = useState("");
     const [currentRoom, setCurrentRoom] = useState("");
+    const [userPic, setUserPic] = useState("");
     const [isComplete, setIsComplete] = useState(false);
-    const value = { userId, setUserId, userName, setUserName, currentRoom, setCurrentRoom };
+    const value = { userId, setUserId, userName, setUserName, currentRoom, setCurrentRoom, userPic, setUserPic };
     const setEmptyUser = () => {
         setUserId('')
         setUserName('')
@@ -36,6 +40,7 @@ export const AuthContextProvider = (props) => {
             checkToken(payload).then((res) => {
                 setUserId(res.uid)
                 setUserName(res.name)
+                setUserPic(baseUrl + '/api/file/' + res.uid)
             }).catch((err) => {
                 setEmptyUser()
             }).finally((res) => {

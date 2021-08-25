@@ -2,17 +2,16 @@ import { baseUrl } from "./config";
 
 import { baseUrl as baseUrlConfig } from './config';
 
-const _request = (url, method, params = null, payload = null) => {
+const _request = (url, method, params = null, payload = null, headers = null) => {
     const baseUrl = baseUrlConfig + '/api';
+
+    const requestHeaders = _setHeader(headers)
 
     return new Promise((resolve, reject) => {
         let status;
         fetch(baseUrl + url, {
             method: method,
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
+            headers: requestHeaders,
             params: params,
             body: payload ? (payload instanceof FormData ? payload : JSON.stringify(payload)) : null
         }).then((res) => {
@@ -28,8 +27,22 @@ const _request = (url, method, params = null, payload = null) => {
     })
 }
 
+const _setHeader = (headers) => {
+    let baseHeaders = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+    };
+    if (headers) {
+        // Object.keys(headers).map((key) => {
+        //     baseHeaders[key] = headers[key]
+        // })
+        baseHeaders = headers
+    }
+    return baseHeaders
+}
+
 export const post = (data) => {
-    return _request(data.url, 'POST', null, data.payload)
+    return _request(data.url, 'POST', null, data.payload, data.headers ? data.headers : null)
 }
 
 export const get = (data) => {
