@@ -23,7 +23,16 @@ export default function ChatItem(props) {
         <Box p={2}>
             {loading ? '' :
                 <HStack flexDirection={uid === user.userId ? "row-reverse" : "row"}>
-                    <Box bg="blueGray.400" w={10} h={10} mx={2} borderRadius={5} />
+                    <Box bg="blueGray.400" w={10} h={10} mx={2} borderRadius={5}>
+                        <Image 
+                            w={10}
+                            h={10}
+                            source={{
+                                uri: user.userPic
+                            }}
+                            alt="Photo"
+                        />
+                    </Box>
                     <Box border={1}
                         borderColor="blueGray.200"
                         bg="blueGray.50"

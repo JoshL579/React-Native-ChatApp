@@ -3,6 +3,7 @@ import { Center, Spinner } from "native-base";
 import { getToken } from "../utils/store";
 import { checkToken } from "../api/auth";
 import { baseUrl } from "../utils/config";
+import headIcon from "../assets/head_icon_female.png";
 
 
 export const AuthContext = createContext({
@@ -40,7 +41,11 @@ export const AuthContextProvider = (props) => {
             checkToken(payload).then((res) => {
                 setUserId(res.uid)
                 setUserName(res.name)
-                setUserPic(baseUrl + '/api/file/' + res.uid)
+                if (res.img) {
+                    setUserPic(baseUrl + '/api/file/' + res.uid)
+                } else {
+                    setUserPic(headIcon)
+                }
             }).catch((err) => {
                 setEmptyUser()
             }).finally((res) => {

@@ -29,6 +29,11 @@ export default function AuthForm(props) {
             if (!setToken(res.token)) throw Error('Unable to set login info, please try again')
             user.setUserId(res.uid)
             user.setUserName(res.name)
+            if (res.img) {
+                user.setUserPic(baseUrl + '/api/file/' + res.uid)
+            } else {
+                user.setUserPic(headIcon)
+            }
         }).catch((err) => {
             console.log(err)
             //todo: add alert

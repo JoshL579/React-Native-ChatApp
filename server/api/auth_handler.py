@@ -45,7 +45,12 @@ def login():
     uid = str(user.get('_id'))
     token = token_generator(uid)
     full_name = user.get('first_name') + ' ' + user.get('last_name')
-    return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'token': token, 'name': full_name})
+
+    # todo: optimize file logic
+    img = False
+    if user.get('avatar') and user.get('avatar') != '':
+        img = True
+    return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'token': token, 'name': full_name, 'img': img})
 
 
 @auth_handler.route('/auth', methods=['POST'])
@@ -57,5 +62,10 @@ def check_token():
     user = mongo.db.users.find_one({'_id': ObjectId(uid)})
     if user is not None:
         full_name = user.get('first_name') + ' ' + user.get('last_name')
-        return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'name': full_name, 'img': True}), 200
+
+        # todo: optimize file logic
+        img = False
+        if user.get('avatar') and user.get('avatar') != '':
+            img = True
+        return jsonify({'success': True, 'msg': 'success', 'uid': uid, 'name': full_name, 'img': img}), 200
     return jsonify({'success': False, 'msg': 'Invalid Token'}), 400
