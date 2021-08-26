@@ -1,11 +1,5 @@
 from flask import jsonify, Blueprint, request
-import uuid
-import datetime
-import json
-import re
-from utils.auth.token_generator import token_generator
 from utils.auth.token_decoder import token_decoder
-import hashlib
 from config import mongo
 from bson import ObjectId
 import base64
@@ -14,7 +8,7 @@ import base64
 profile_handler = Blueprint('profile_handler', __name__)
 
 
-@profile_handler.route('/profile/upload', methods=['POST'])
+@profile_handler.route('/upload', methods=['POST'])
 def check_token():
     print(request.form.get('token'))
     # print(request.files['img'])

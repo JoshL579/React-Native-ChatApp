@@ -1,11 +1,10 @@
-import { baseUrl } from "./config";
-
 import { baseUrl as baseUrlConfig } from './config';
+import { getToken } from '../utils/store';
 
-const _request = (url, method, params = null, payload = null, headers = null) => {
+const _request = async (url, method, params = null, payload = null, headers = null) => {
     const baseUrl = baseUrlConfig + '/api';
 
-    const requestHeaders = _setHeader(headers)
+    const requestHeaders = await _setHeader(headers)
 
     return new Promise((resolve, reject) => {
         let status;
@@ -32,13 +31,17 @@ const _setHeader = (headers) => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
     };
-    if (headers) {
-        // Object.keys(headers).map((key) => {
-        //     baseHeaders[key] = headers[key]
-        // })
-        baseHeaders = headers
-    }
-    return baseHeaders
+
+    return getToken().then((token) => {
+        if (token) baseHeaders.Authorization = 'Bearer ' + token
+        if (headers) {
+            // Object.keys(headers).map((key) => {
+            //     baseHeaders[key] = headers[key]
+            // })
+            baseHeaders = headers
+        }
+        return baseHeaders
+    })
 }
 
 export const post = (data) => {

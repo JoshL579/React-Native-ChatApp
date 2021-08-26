@@ -42,7 +42,7 @@ export const AuthContextProvider = (props) => {
                 setUserId(res.uid)
                 setUserName(res.name)
                 if (res.img) {
-                    setUserPic(baseUrl + '/api/file/' + res.uid)
+                    setUserPic(baseUrl + '/api/static/' + res.uid)
                 } else {
                     setUserPic(headIcon)
                 }

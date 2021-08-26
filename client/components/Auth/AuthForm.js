@@ -30,7 +30,7 @@ export default function AuthForm(props) {
             user.setUserId(res.uid)
             user.setUserName(res.name)
             if (res.img) {
-                user.setUserPic(baseUrl + '/api/file/' + res.uid)
+                user.setUserPic(baseUrl + '/api/static/' + res.uid)
             } else {
                 user.setUserPic(headIcon)
             }
