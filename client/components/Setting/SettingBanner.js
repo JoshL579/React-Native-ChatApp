@@ -37,21 +37,13 @@ export default function SettingBanner(props) {
 
         if (!result.cancelled) {
             setImg(result.base64);
-            
-            getToken().then((token) => {
-                console.log(token)
-                const payload = {
-                    img: result.base64,
-                    token: token
-                }
-                upload(payload).then((res) => {
-                    console.log(res)
-                }).catch((err) => {
-                    console.log(err)
-                    //todo: add alert
-                })
+            const payload = { img: result.base64 }
+            upload(payload).then((res) => {
+                console.log(res)
+            }).catch((err) => {
+                console.log(err)
+                //todo: add alert
             })
-            
         }
     };
 

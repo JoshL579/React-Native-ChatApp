@@ -12,7 +12,7 @@ const _request = async (url, method, params = null, payload = null, headers = nu
             method: method,
             headers: requestHeaders,
             params: params,
-            body: payload ? (payload instanceof FormData ? payload : JSON.stringify(payload)) : null
+            body: payload ? JSON.stringify(payload) : null
         }).then((res) => {
             status = res.status;
             if (status < 500) return res.json()
@@ -26,26 +26,19 @@ const _request = async (url, method, params = null, payload = null, headers = nu
     })
 }
 
-const _setHeader = (headers) => {
+const _setHeader = () => {
     let baseHeaders = {
         Accept: 'application/json',
         'Content-Type': 'application/json'
     };
-
     return getToken().then((token) => {
         if (token) baseHeaders.Authorization = 'Bearer ' + token
-        if (headers) {
-            // Object.keys(headers).map((key) => {
-            //     baseHeaders[key] = headers[key]
-            // })
-            baseHeaders = headers
-        }
         return baseHeaders
     })
 }
 
 export const post = (data) => {
-    return _request(data.url, 'POST', null, data.payload, data.headers ? data.headers : null)
+    return _request(data.url, 'POST', null, data.payload)
 }
 
 export const get = (data) => {

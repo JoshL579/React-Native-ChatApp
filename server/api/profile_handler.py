@@ -1,32 +1,33 @@
 from flask import jsonify, Blueprint, request
-from utils.auth.token_decoder import token_decoder
+from utils.auth.auth_decorator import auth
 from config import mongo
 from bson import ObjectId
 import base64
+import json
 
 
 profile_handler = Blueprint('profile_handler', __name__)
 
 
 @profile_handler.route('/upload', methods=['POST'])
-def check_token():
-    print(request.form.get('token'))
-    # print(request.files['img'])
-    token = request.form.get('token')
-    # token = json.loads(request.get_data()).get('token')
-    if token is None:
-        return jsonify({'success': False, 'msg': 'Empty Token'}), 400
-    uid = token_decoder(token).get('uid')
-    user = mongo.db.users.find_one({'_id': ObjectId(uid)})
-    if user is None:
-        return jsonify({'success': False, 'msg': 'Invalid Token'}), 400
-    # data = json.loads(request.get_data())
-    # avatar = data.get('img')
-    avatar = request.form.get('img')
-    with open("./static/user_img/" + uid + ".png", "wb") as fh:
-        fh.write(base64.b64decode(avatar))
-    # try:
-    #     mongo.db.users.update_one({'_id': ObjectId(uid)}, {'$set': {'avatar': avatar}})
-    # except:
-    #     return jsonify({'success': False, 'msg': 'fail to insert db'}), 200
+@auth
+def check_token(uid):
+    img = json.loads(request.get_data()).get('img')
+    if img is None:
+        return jsonify({'success': False, 'msg': 'Empty Image'}), 200
+
+    # make img file
+    try:
+        with open("./static/user_img/" + uid + ".png", "wb") as fh:
+            fh.write(base64.b64decode(img))
+    except:
+        return jsonify({'success': False, 'msg': 'Invalid Image'}), 200
+
+    # update db
+    try:
+        mongo.db.users.update_one({'_id': ObjectId(uid)}, {'$set': {'avatar': img}})
+    except:
+        return jsonify({'success': False, 'msg': 'fail to insert db'}), 200
+
+    # success return
     return jsonify({'success': True, 'msg': 'success', 'uid': uid}), 200
