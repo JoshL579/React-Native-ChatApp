@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { ChatContext } from '../../context/ChatContext';
-import { Center, HStack, Button, useTheme, Text, Box, Icon, Pressable } from 'native-base';
+import { Center, HStack, Button, useTheme, Text, Box, Icon, Pressable, Image } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from 'react-native';
@@ -10,8 +10,8 @@ import { getToken } from '../../utils/store';
 
 
 export default function SettingBanner(props) {
-    const { title, content } = props;
-    const [img, setImg] = useState({});
+    const { title, content, type } = props;
+    // const [img, setImg] = useState({});
 
     useEffect(() => {
         (async () => {
@@ -33,10 +33,8 @@ export default function SettingBanner(props) {
             base64: true
         });
 
-        // console.log(result);
-
         if (!result.cancelled) {
-            setImg(result.base64);
+            // setImg(result.base64);
             const payload = { img: result.base64 }
             upload(payload).then((res) => {
                 console.log(res)
@@ -65,7 +63,18 @@ export default function SettingBanner(props) {
                     <Text fontSize="2xl">{title}</Text>
                 </Box>
                 <Box flex={1} alignItems="flex-end">
-                    <Text fontSize="xl">{content}</Text>
+                    {type === 'text' &&
+                        <Text fontSize="xl">{content}</Text>
+                    }
+                    {type === 'image' &&
+                        <Image
+                            size={12}
+                            source={{
+                                uri: content
+                            }}
+                            alt="ChatApp"
+                        />
+                    }
                 </Box>
                 <Box w={8} alignItems="flex-end">
                     <Icon

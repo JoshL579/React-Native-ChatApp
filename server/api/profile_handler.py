@@ -5,8 +5,29 @@ from bson import ObjectId
 import base64
 import json
 
-
 profile_handler = Blueprint('profile_handler', __name__)
+
+
+@profile_handler.route('/update/<update_type>', methods=['POST'])
+@auth
+def update_info(uid, update_type):
+    data = json.loads(request.get_data())
+    if update_type == 'username':
+        first_name = data.get('firstname')
+        last_name = data.get('lastname')
+
+        # update db
+        try:
+            mongo.db.users.update_one(
+                {'_id': ObjectId(uid)},
+                {'$set': {'last_name': last_name, 'first_name': first_name}}
+            )
+        except:
+            return jsonify({'success': False, 'msg': 'fail to insert db'}), 200
+
+        # success return
+        return jsonify({'success': True, 'msg': 'success', 'uid': uid}), 200
+    return jsonify({'success': False, 'msg': 'Update type is not supported'}), 200
 
 
 @profile_handler.route('/upload', methods=['POST'])

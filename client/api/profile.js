@@ -6,3 +6,10 @@ export const upload = (payload) => {
         payload: payload
     })
 }
+
+export const updateUsername = (payload) => {
+    return post({
+        url: '/profile/update/username',
+        payload: payload
+    })
+}

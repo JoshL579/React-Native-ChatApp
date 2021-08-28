@@ -10,8 +10,11 @@ export default function UserInfoBanner(props) {
             borderColor="blueGray.200" borderWidth={1} borderTopWidth={0}
             bg="blueGray.100" shadow={0}
         >
-            <Box bg="blueGray.400" w={16} h={16} mx={2} borderRadius={5}>
-                <Image 
+            <Box
+                // bg="blueGray.400"
+                w={16} h={16} mx={2} borderRadius={5}
+            >
+                <Image
                     size={16}
                     source={{
                         uri: userPic

@@ -6,26 +6,34 @@ import SettingBanner from '../../components/Setting/SettingBanner';
 
 
 export default function Setting() {
-    const {userName, userId} = useContext(AuthContext);
+    const { userName, userId, userPic } = useContext(AuthContext);
     const settingList = [
         {
             title: 'Photo',
-            content: ''
+            content: userPic,
+            type: 'image'
         },
         {
             title: 'Name',
-            content: userName
+            content: userName,
+            type: 'text'
         },
         {
             title: 'ID',
-            content: userId
+            content: userId,
+            type: 'text'
         },
     ]
 
     return (
         <VStack flex={1} w="100%">
-            {settingList.map((item) => 
-                <SettingBanner title={item.title} content={item.content} key={item.title} />
+            {settingList.map((item) =>
+                <SettingBanner
+                    title={item.title}
+                    content={item.content}
+                    key={item.title}
+                    type={item.type}
+                />
             )}
         </VStack>
     )
