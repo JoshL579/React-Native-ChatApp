@@ -11,10 +11,12 @@ import Profile from '../screens/Profile/Profile';
 import Chat from '../screens/Chat/Chat';
 import Setting from '../screens/Setting/Setting';
 import Search from '../screens/Search/Search';
+import ChatSetting from '../screens/ChatSetting/ChatSetting';
 import { AuthContext } from '../context/AuthContext';
 import { navigationRef } from './navigationRef';
 import AddMenu from '../components/Rooms/AddMenu';
 import { Ionicons } from '@expo/vector-icons';
+import { ChatSettingBtn } from '../components/Chat/ChatSettingBtn';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -93,7 +95,10 @@ export default function NavBarBottom() {
                                 name="ChatList"
                                 component={Chat}
                                 options={(
-                                    { route }) => ({ title: route.params.name }
+                                    { route }) => ({
+                                        title: route.params.name,
+                                        headerRight: () => <ChatSettingBtn />
+                                    }
                                 )}
                             />
                             <Stack.Screen
@@ -103,6 +108,13 @@ export default function NavBarBottom() {
                             <Stack.Screen
                                 name="Search"
                                 component={Search}
+                            />
+                            <Stack.Screen
+                                name="ChatSetting"
+                                component={ChatSetting}
+                                options={{
+                                    title: 'Setting'
+                                }}
                             />
                         </>
                         :
