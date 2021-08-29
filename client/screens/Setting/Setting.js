@@ -14,14 +14,24 @@ export default function Setting() {
             type: 'image'
         },
         {
-            title: 'Name',
-            content: userName,
-            type: 'text'
-        },
-        {
             title: 'ID',
             content: userId,
-            type: 'text'
+            type: 'uid'
+        },
+        {
+            title: 'Name',
+            content: userName,
+            type: 'username'
+        },
+        {
+            title: 'Email',
+            content: userName,
+            type: 'email'
+        },
+        {
+            title: 'Gender',
+            content: userName,
+            type: 'gender'
         },
     ]
 

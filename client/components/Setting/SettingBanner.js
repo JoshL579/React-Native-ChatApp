@@ -7,11 +7,13 @@ import * as ImagePicker from 'expo-image-picker';
 import { Platform } from 'react-native';
 import { upload } from '../../api/profile';
 import { getToken } from '../../utils/store';
+import { SettingModal } from './SettingModal';
 
 
 export default function SettingBanner(props) {
     const { title, content, type } = props;
     // const [img, setImg] = useState({});
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -45,47 +47,64 @@ export default function SettingBanner(props) {
         }
     };
 
-    const handleUploadImg = () => {
-        if (title.toLowerCase() === 'photo') {
-            pickImage()
+    const handleUpdateClick = () => {
+        if (type === 'image') {
+            return pickImage()
         }
+        if (type === 'uid') return
+        setModalOpen(true)
+    }
+
+    const handleConfirm = () => {
+
     }
 
     return (
-        <Pressable onPress={handleUploadImg}>
-            <HStack w="100%" p={4}
-                alignItems="center"
-                bg="blueGray.200"
-                shadow={1}
-                mb={4}
-            >
-                <Box w={24}>
-                    <Text fontSize="2xl">{title}</Text>
-                </Box>
-                <Box flex={1} alignItems="flex-end">
-                    {type === 'text' &&
-                        <Text fontSize="xl">{content}</Text>
-                    }
-                    {type === 'image' &&
-                        <Image
-                            size={12}
-                            source={{
-                                uri: content
-                            }}
-                            alt="ChatApp"
-                        />
-                    }
-                </Box>
-                <Box w={8} alignItems="flex-end">
-                    <Icon
-                        color="blueGray.500"
-                        size={4}
-                        as={
-                            <AntDesign name="right" />
+        <>
+            <Pressable onPress={handleUpdateClick}>
+                <HStack w="100%" p={4}
+                    alignItems="center"
+                    bg="blueGray.100"
+                    // shadow={1}
+                    // mb={4}
+                    borderBottomColor="blueGray.200"
+                    borderBottomWidth={1}
+                >
+                    <Box w={24}>
+                        <Text fontSize="xl">{title}</Text>
+                    </Box>
+                    <Box flex={1} alignItems="flex-end">
+                        {type === 'image' ?
+                            <Image
+                                size={12}
+                                source={{
+                                    uri: content
+                                }}
+                                alt="ChatApp"
+                            />
+                            :
+                            <Text fontSize="md">{content}</Text>
                         }
-                    />
-                </Box>
-            </HStack>
-        </Pressable>
+                    </Box>
+                    <Box w={8} alignItems="flex-end">
+                        {type !== 'uid' &&
+                            <Icon
+                                color="blueGray.500"
+                                size={4}
+                                as={
+                                    <AntDesign name="right" />
+                                }
+                            />
+                        }
+                    </Box>
+                </HStack>
+            </Pressable>
+            <SettingModal
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                handleConfirm={handleConfirm}
+                type={type}
+            />
+        </>
     )
 }
