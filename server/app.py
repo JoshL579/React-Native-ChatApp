@@ -9,6 +9,7 @@ from api.chat_handler import chat_handler
 from api.profile_handler import profile_handler
 from api.static_handler import static_handler
 from api.search_handler import search_handler
+from api.deploy_handler import deploy_handler
 from config import mongo
 
 app = Flask(__name__, static_url_path='/static')
@@ -24,6 +25,7 @@ app.register_blueprint(room_handler, url_prefix=url_prefix)
 app.register_blueprint(profile_handler, url_prefix=url_prefix + '/profile')
 app.register_blueprint(static_handler, url_prefix=url_prefix + '/static')
 app.register_blueprint(search_handler, url_prefix=url_prefix + '/search')
+app.register_blueprint(deploy_handler, url_prefix=url_prefix + '/deploy-github')
 chat_handler.init_io(socketio)
 
 if __name__ == '__main__':

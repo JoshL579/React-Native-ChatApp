@@ -21,3 +21,6 @@ users = json.loads(str(getenv("USERS", [])))
 # DB
 MONGO_URI = getenv('MONGODB_URI')
 mongo = PyMongo()
+
+# Base DIR
+base_dir = getenv('BASE_DIR')
