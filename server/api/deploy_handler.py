@@ -8,6 +8,6 @@ deploy_handler = Blueprint('deploy_handler', __name__)
 
 @deploy_handler.route('/', methods=['POST'])
 def update_deploy():
-    print(json.loads(request.get_data()))
+    # print(json.loads(request.get_data()))
     deploy(base_dir)
     return jsonify({}), 200
