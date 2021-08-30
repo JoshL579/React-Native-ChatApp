@@ -18,7 +18,7 @@ def update_code():
 
 
 def deploy_server(base_dir):
-    sh = 'pipenv install && pipenv python3 app.py'
+    sh = 'pipenv install && pipenv shell && python3 app.py'
     process = subprocess.run(
         sh, capture_output=True,  text=True, shell=True,
         cwd=os.path.join(base_dir, 'server')
