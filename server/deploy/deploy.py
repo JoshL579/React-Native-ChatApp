@@ -46,11 +46,11 @@ def deploy(base_dir):
     if not git_status:
         return False
 
-    server_status = deploy_server(base_dir)
-    if not server_status:
-        print('server deployed fail')
-        return False
-    print('server deployed successfully')
+    # server_status = deploy_server(base_dir)
+    # if not server_status:
+    #     print('server deployed fail')
+    #     return False
+    # print('server deployed successfully')
 
     # client_status = deploy_client(base_dir)
     # if not client_status:
