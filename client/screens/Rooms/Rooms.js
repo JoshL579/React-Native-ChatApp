@@ -10,9 +10,10 @@ import { clearNotification } from '../../utils/history';
 
 export default function Rooms(props) {
     const { navigation } = props;
-    const user = useContext(AuthContext);
+    // const user = useContext(AuthContext);
+    const { userId, userName, rooms, setRooms, setCurrentRoom } = useContext(AuthContext);
     const chatHistory = useContext(ChatContext);
-    const [rooms, setRooms] = useState([]);
+    // const [rooms, setRooms] = useState([]);
 
     useEffect(() => {
         getRooms().then((res) => {
@@ -25,14 +26,17 @@ export default function Rooms(props) {
 
     useEffect(() => {
         socket.emit("join", {
-            uid: user.userId,
-            username: user.userName,
+            uid: userId,
+            username: userName,
             roomId: '1001',
         });
     }, [])
 
     const handleEnterRoom = (name, roomId) => {
-        user.setCurrentRoom(roomId)
+        setCurrentRoom({
+            id: roomId,
+            name: name
+        })
         const newUnRead = clearNotification(chatHistory.unRead, roomId)
         if (newUnRead) {
             chatHistory.setUnRead(newUnRead)

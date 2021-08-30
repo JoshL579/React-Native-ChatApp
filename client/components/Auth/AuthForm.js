@@ -4,6 +4,7 @@ import { Input, Stack, Center, Heading, Button } from 'native-base';
 import { login } from '../../api/auth';
 import { setToken } from '../../utils/store';
 import { AuthContext } from '../../context/AuthContext';
+import { baseUrl } from '../../utils/config';
 
 
 export default function AuthForm(props) {

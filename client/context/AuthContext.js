@@ -13,6 +13,8 @@ export const AuthContext = createContext({
     setUserName: () => { },
     userPic: "",
     setUserPic: () => { },
+    rooms: "",
+    setRooms: () => { },
     currentRoom: "",
     setCurrentRoom: () => { }
 });
@@ -20,10 +22,11 @@ export const AuthContext = createContext({
 export const AuthContextProvider = (props) => {
     const [userId, setUserId] = useState("");
     const [userName, setUserName] = useState("");
+    const [rooms, setRooms] = useState([]);
     const [currentRoom, setCurrentRoom] = useState("");
     const [userPic, setUserPic] = useState("");
     const [isComplete, setIsComplete] = useState(false);
-    const value = { userId, setUserId, userName, setUserName, currentRoom, setCurrentRoom, userPic, setUserPic };
+    const value = { userId, setUserId, userName, rooms, setRooms, setUserName, currentRoom, setCurrentRoom, userPic, setUserPic };
     const setEmptyUser = () => {
         setUserId('')
         setUserName('')
@@ -51,7 +54,7 @@ export const AuthContextProvider = (props) => {
             }).finally((res) => {
                 setIsComplete(true)
             })
-        }) 
+        })
     }, []);
 
     if (!isComplete) {
