@@ -10,8 +10,8 @@ def join_current_dir():
     return False
 
 
-def update_code():
-    process = subprocess.run('git pull', capture_output=True, text=True, shell=True, cwd=os.getcwd())
+def update_code(base_dir):
+    process = subprocess.run('git pull', capture_output=True, text=True, shell=True, cwd=base_dir)
     if process.returncode == 0:
         return True
     return False
@@ -42,7 +42,7 @@ def deploy_client(base_dir):
 
 
 def deploy(base_dir):
-    git_status = update_code()
+    git_status = update_code(base_dir)
     if not git_status:
         return False
 
