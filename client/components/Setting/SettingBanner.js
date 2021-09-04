@@ -14,6 +14,7 @@ export default function SettingBanner(props) {
     const { title, content, type } = props;
     // const [img, setImg] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
+    const { setUserPic } = useContext(AuthContext)
 
     useEffect(() => {
         (async () => {
@@ -40,6 +41,7 @@ export default function SettingBanner(props) {
             const payload = { img: result.base64 }
             upload(payload).then((res) => {
                 console.log(res)
+                setUserPic(baseUrl + '/api/static/' + res.uid)
             }).catch((err) => {
                 console.log(err)
                 //todo: add alert

@@ -5,11 +5,13 @@ export function SettingModal(props) {
     const { modalOpen, setModalOpen, handleConfirm, type } = props;
 
     const typeTitle = (() => {
-        if (type === 'username') return 'Edit Name'
+        if (type === 'username') return 'Edit Name';
+        if (type === 'email') return 'Edit Email';
+        if (type === 'gender') return 'Edit Gender';
     })()
 
     return (
-        <Modal isOpen={modalOpen}>
+        <Modal isOpen={modalOpen} onClose={setModalOpen}>
             <Modal.Content>
                 {/* <Modal.CloseButton /> */}
                 <Modal.Header>
@@ -28,7 +30,10 @@ export function SettingModal(props) {
                             />
                         </>
                         :
-                        <Input />
+                        <Input 
+                            placeholder={typeTitle}
+                            mt={4}
+                        />
                     }
                 </Modal.Body>
                 <Modal.Footer pr={6} pb={6}>

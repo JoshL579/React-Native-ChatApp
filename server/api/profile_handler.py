@@ -4,6 +4,7 @@ from config import mongo
 from bson import ObjectId
 import base64
 import json
+import os
 
 profile_handler = Blueprint('profile_handler', __name__)
 
@@ -39,8 +40,13 @@ def check_token(uid):
 
     # make img file
     try:
-        with open("./static/user_img/" + uid + ".png", "wb") as fh:
+        # if folder not exist make the folder
+        if not os.path.isdir(os.path.join('static', 'user_img')):
+            os.makedirs(os.path.join('static', 'user_img'))
+        # make img file
+        with open(os.path.join('static', 'user_img', uid + ".png"), "wb") as fh:
             fh.write(base64.b64decode(img))
+        # todo: upload to S3 & delete file on server
     except:
         return jsonify({'success': False, 'msg': 'Invalid Image'}), 200
 
